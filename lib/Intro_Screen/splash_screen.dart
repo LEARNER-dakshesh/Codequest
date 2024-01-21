@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
 
@@ -7,39 +6,69 @@ class Splash extends StatefulWidget {
   State<Splash> createState() => _SplashState();
 }
 
-class _SplashState extends State<Splash> {
+class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 3),
+    )
+      ..repeat(reverse: true);
+
+    _animation = Tween<double>(begin: -10.0, end: 10.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeInOut,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.purple.shade200,
-      //Colors.cyanAccent.shade400 or Color(0xffFFC3A6)
       body: Container(
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(height: 50),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(55.0),
-              child: Image.asset(
-                'assets/back.jpg',
-                height: 300,
-                width: 300,
-              ),
+            AnimatedBuilder(
+              animation: _animationController,
+              builder: (context, child) {
+                return Transform.translate(
+                  offset: Offset(0.0, _animation.value),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(45.0),
+                    child: Image.asset(
+                      'assets/back.jpg',
+                      height: 300,
+                      width: 300,
+                    ),
+                  ),
+                );
+              },
             ),
             Container(
               width: double.infinity,
               padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(60),
-                topRight: Radius.circular(60),
-              ),),
-
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(60),
+                  topRight: Radius.circular(60),
+                ),
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Discover the best organic coding platform.🌋 ",
+                    "Discover The Best Organic Coding Partner 🌋 ",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
@@ -55,9 +84,11 @@ class _SplashState extends State<Splash> {
                   Align(
                     alignment: Alignment.bottomRight,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context,'Auth');
+                      },
                       child: Text(
-                        "Explore Now.🚀",
+                        "Explore Now 🚀",
                         style: TextStyle(color: Colors.black, fontSize: 16),
                       ),
                     ),
@@ -69,5 +100,11 @@ class _SplashState extends State<Splash> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 }
