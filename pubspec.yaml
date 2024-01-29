@@ -40,6 +40,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   simple_animations: ^5.0.2
+  email_otp: ^2.1.2
+  http: ^1.2.0
+  email_auth: ^1.1.1
+  http_parser: ^4.0.2
+  email_validator: ^2.1.17
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

@@ -48,7 +48,6 @@ class _Otp_pageState extends State<Otp_page> {
               ),
               ),
             ],
-
           ),
 
         )

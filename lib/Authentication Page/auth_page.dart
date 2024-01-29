@@ -1,6 +1,9 @@
+import 'package:codequest/Authentication%20Page/otp_screen.dart';
 import 'package:flutter/material.dart';
-
-import '../Animation/FadeAnimation.dart';
+import 'package:email_otp/email_otp.dart';
+import '../Animation/FadeAnimation.dart'; // Assuming you have the FadeAnimation widget
+import 'package:http/http.dart' as http;
+import 'package:email_auth/email_auth.dart';
 
 class Auth extends StatefulWidget {
   const Auth({Key? key}) : super(key: key);
@@ -11,6 +14,12 @@ class Auth extends StatefulWidget {
 
 class _AuthState extends State<Auth> {
   Color myColor = Color(0xffFFC3A6);
+  EmailOTP myauth = EmailOTP();
+  final TextEditingController email = TextEditingController();
+  final TextEditingController _otpController1 = TextEditingController();
+  final TextEditingController _otpController2 = TextEditingController();
+  final TextEditingController _otpController3 = TextEditingController();
+  final TextEditingController _otpController4 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +91,7 @@ class _AuthState extends State<Auth> {
                               textAlign: TextAlign.center,
                             ),
                             SizedBox(
-                              height: 25,
+                              height: 5,
                             ),
                             FadeInUp(
                               duration: Duration(milliseconds: 1400),
@@ -91,13 +100,6 @@ class _AuthState extends State<Auth> {
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color(0xffFFC3A6),
-                                      blurRadius: 20,
-                                      offset: Offset(0, 10),
-                                    ),
-                                  ],
                                 ),
                                 child: Column(
                                   children: <Widget>[
@@ -108,13 +110,155 @@ class _AuthState extends State<Auth> {
                                         ),
                                       ),
                                       child: TextField(
+                                        controller: email,
                                         decoration: InputDecoration(
-                                          hintText: "Phone No.",
+                                          hintText: "Enter Email Address",
+                                          labelText: "Email",
+                                          suffixIcon: IconButton(
+                                            onPressed: () async {
+                                              myauth.setConfig(
+                                                appEmail: "codequestcn@gmail.com",
+                                                appName: "Email Otp",
+                                                userEmail: email.text,
+                                                otpLength: 4,
+                                                otpType: OTPType.digitsOnly,
+                                              );
+                                              if (await myauth.sendOTP() == true) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  const SnackBar(content: Text("OTP has been sent")),
+                                                );
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  const SnackBar(content: Text("Oops, OTP send Failed")),
+                                                );
+                                              }
+                                            },
+                                            icon: Icon(Icons.send), // Use the send icon or replace it with the desired icon
+                                          ),
                                           hintStyle: TextStyle(color: Colors.grey),
                                           border: InputBorder.none,
                                         ),
-                                        keyboardType: TextInputType.number,
                                       ),
+                                    ),
+                                    SizedBox(height: 20),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            margin: EdgeInsets.symmetric(horizontal: 5),
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                bottom: BorderSide(color: Colors.grey),
+                                              ),
+                                            ),
+                                            child: TextFormField(
+                                              controller: _otpController1,
+                                              keyboardType: TextInputType.number,
+                                              textAlign: TextAlign.center,
+                                              maxLength: 1,
+                                              onChanged: (value) {
+                                                if (value.length == 1) {
+                                                  FocusScope.of(context).nextFocus();
+                                                }
+                                                if (value.isEmpty) {
+                                                  FocusScope.of(context).previousFocus();
+                                                }
+                                              },
+                                              decoration: InputDecoration(
+                                                counterText: "", // Hide character counter
+                                                border: InputBorder.none,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            margin: EdgeInsets.symmetric(horizontal: 5),
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                bottom: BorderSide(color: Colors.grey),
+                                              ),
+                                            ),
+                                            child: TextFormField(
+                                              controller: _otpController2,
+                                              keyboardType: TextInputType.number,
+                                              textAlign: TextAlign.center,
+                                              maxLength: 1,
+                                              onChanged: (value) {
+                                                if (value.length == 1) {
+                                                  FocusScope.of(context).nextFocus();
+                                                }
+                                                if (value.isEmpty) {
+                                                  FocusScope.of(context).previousFocus();
+                                                }
+                                              },
+                                              decoration: InputDecoration(
+                                                counterText: "", // Hide character counter
+                                                border: InputBorder.none,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            margin: EdgeInsets.symmetric(horizontal: 5),
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                bottom: BorderSide(color: Colors.grey),
+                                              ),
+                                            ),
+                                            child: TextFormField(
+                                              controller: _otpController3,
+                                              keyboardType: TextInputType.number,
+                                              textAlign: TextAlign.center,
+                                              maxLength: 1,
+                                              onChanged: (value) {
+                                                if (value.length == 1) {
+                                                  FocusScope.of(context).nextFocus();
+                                                }
+                                                if (value.isEmpty) {
+                                                  FocusScope.of(context).previousFocus();
+                                                }
+                                              },
+                                              decoration: InputDecoration(
+                                                counterText: "", // Hide character counter
+                                                border: InputBorder.none,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            margin: EdgeInsets.symmetric(horizontal: 5),
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                bottom: BorderSide(color: Colors.grey),
+                                              ),
+                                            ),
+                                            child: TextFormField(
+                                              controller: _otpController4,
+                                              keyboardType: TextInputType.number,
+                                              textAlign: TextAlign.center,
+                                              maxLength: 1,
+                                              onChanged: (value) {
+                                                if (value.length == 1) {
+                                                  FocusScope.of(context).nextFocus();
+                                                }
+                                                if (value.isEmpty) {
+                                                  FocusScope.of(context).previousFocus();
+                                                }
+                                              },
+                                              decoration: InputDecoration(
+                                                counterText: "", // Hide character counter
+                                                border: InputBorder.none,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -134,7 +278,27 @@ class _AuthState extends State<Auth> {
                                 ),
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, 'otp_screen');
+                                    if (myauth.verifyOTP(otp: _otpController1.text +
+                                        _otpController2.text +
+                                        _otpController3.text +
+                                        _otpController4.text) == true) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(content: Text("OTP is verified")),
+                                      );
+                                      // Navigate to the next screen or perform the desired action
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Otp_page(),
+                                        ),
+                                      );
+                                    } else {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                          content: Text("Invalid OTP"),
+                                        ),
+                                      );
+                                    }
                                   },
                                   style: ElevatedButton.styleFrom(
                                     shape: RoundedRectangleBorder(
@@ -193,10 +357,10 @@ class _AuthState extends State<Auth> {
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Image.asset(
-                                              'assets/google_logo.png', // Corrected image asset usage
-                                              height: 20, // Adjust the height as needed
+                                              'assets/google_logo.png',
+                                              height: 20,
                                             ),
-                                            SizedBox(width: 10), // Add some spacing between the image and text
+                                            SizedBox(width: 10),
                                             Text(
                                               "Google",
                                               style: TextStyle(
@@ -210,7 +374,9 @@ class _AuthState extends State<Auth> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(width: 30,),
+                                  SizedBox(
+                                    width: 30,
+                                  ),
                                   Expanded(
                                     child: Container(
                                       height: 50,
@@ -223,7 +389,7 @@ class _AuthState extends State<Auth> {
                                         color: Colors.black,
                                       ),
                                       child: ElevatedButton(
-                                        onPressed:() {
+                                        onPressed: () {
                                           // Add your button click logic here
                                         },
                                         style: ElevatedButton.styleFrom(
@@ -235,10 +401,10 @@ class _AuthState extends State<Auth> {
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Image.asset(
-                                              'assets/github_logo.png', // Corrected image asset usage
-                                              height: 20, // Adjust the height as needed
+                                              'assets/github_logo.png',
+                                              height: 20,
                                             ),
-                                            SizedBox(width: 10), // Add some spacing between the image and text
+                                            SizedBox(width: 10),
                                             Text(
                                               "Github",
                                               style: TextStyle(
