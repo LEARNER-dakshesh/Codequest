@@ -1,5 +1,5 @@
 import 'package:codequest/Authentication%20Page/auth_page.dart';
-import 'package:codequest/Authentication%20Page/otp_screen.dart';
+import 'package:codequest/HomePage.dart';
 import 'package:codequest/Intro_Screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -15,9 +15,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: 'splash_screen',
       routes: {
+
         'splash_screen':(context)=>Splash(),
         'Auth':(context)=>Auth(),
-        'otp_screen':(context)=>Otp_page(),
+        'otp_screen':(context)=>HomePage(),
       },
     );
   }

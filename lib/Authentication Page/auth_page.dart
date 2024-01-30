@@ -1,4 +1,5 @@
 import 'package:codequest/Authentication%20Page/otp_screen.dart';
+import 'package:codequest/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:email_otp/email_otp.dart';
 import '../Animation/FadeAnimation.dart'; // Assuming you have the FadeAnimation widget
@@ -289,7 +290,7 @@ class _AuthState extends State<Auth> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => Otp_page(),
+                                          builder: (context) => HomePage(),
                                         ),
                                       );
                                     } else {
