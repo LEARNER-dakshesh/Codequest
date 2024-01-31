@@ -10,7 +10,7 @@ class Roadmap extends StatefulWidget {
 
 class _RoadmapState extends State<Roadmap> {
   final controller = WebViewController()
-  ..setJavaScriptMode(JavaScriptMode.disabled)
+  ..setJavaScriptMode(JavaScriptMode.unrestricted)
   ..loadRequest(Uri.parse('https://neetcode.io/roadmap'));
 
 
