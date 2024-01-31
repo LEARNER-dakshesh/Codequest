@@ -12,20 +12,23 @@ class ListContainer extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Color(0xFF202e3f),
+          border: Border.all(color: Colors.black),
+            color: Colors.white,
         ),
         height: 80,
         width: double.maxFinite,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [Padding(
+          children: [
+            Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Image.asset(imagepath,scale: 2,),
           ),
-          Text(text,style: TextStyle(color: Colors.white,fontSize: 25),)
+            Text(text,style: TextStyle(color: Colors.black,fontSize: 25),)
           ],
         ),
       ),
     );
   }
 }
+

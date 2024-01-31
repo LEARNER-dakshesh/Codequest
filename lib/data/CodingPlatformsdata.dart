@@ -7,11 +7,9 @@ class CodingPlatform {
 
 List<CodingPlatform> CodingPlatformdata = [
   CodingPlatform('LeetCode', 'assets/CodingPlatformsIcons/img.png'),
+  CodingPlatform('CodeForces', 'assets/CodingPlatformsIcons/img_5.png'),
   CodingPlatform('CodeChef', 'assets/CodingPlatformsIcons/img_1.png'),
-  CodingPlatform('HackerRank', 'assets/CodingPlatformsIcons/img_2.png'),
+  CodingPlatform('GeeksForGeeks', 'assets/CodingPlatformsIcons/img_6.png'),
   CodingPlatform('HackerEarth', 'assets/CodingPlatformsIcons/img_3.png'),
   CodingPlatform('Coding Ninjas', 'assets/CodingPlatformsIcons/img_4.png'),
-  CodingPlatform('CodeForces', 'assets/CodingPlatformsIcons/img_5.png'),
-  CodingPlatform('Geeks For Geeks', 'assets/CodingPlatformsIcons/img_6.png'),
-
 ];
