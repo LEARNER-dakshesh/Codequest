@@ -11,5 +11,5 @@ List<CodingPlatform> CodingPlatformdata = [
   CodingPlatform('CodeChef', 'assets/CodingPlatformsIcons/img_1.png'),
   CodingPlatform('GeeksForGeeks', 'assets/CodingPlatformsIcons/img_6.png'),
   CodingPlatform('HackerEarth', 'assets/CodingPlatformsIcons/img_3.png'),
-  CodingPlatform('Coding Ninjas', 'assets/CodingPlatformsIcons/img_4.png'),
+  CodingPlatform('CodingNinjas', 'assets/CodingPlatformsIcons/img_4.png'),
 ];

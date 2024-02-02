@@ -12,8 +12,8 @@ class ListContainer extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.black),
-            color: Colors.white,
+           // border: Border.all(color: Colors.black),
+            color: Colors.black,
         ),
         height: 80,
         width: double.maxFinite,
@@ -23,8 +23,8 @@ class ListContainer extends StatelessWidget {
             Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Image.asset(imagepath,scale: 2,),
-          ),
-            Text(text,style: TextStyle(color: Colors.black,fontSize: 25),)
+            ),
+            Text(text,style: TextStyle(color: Colors.white,fontSize: 24),)
           ],
         ),
       ),

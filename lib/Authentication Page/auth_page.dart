@@ -31,7 +31,8 @@ class _AuthState extends State<Auth> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
-            colors: [myColor, Colors.purple.shade200],
+            // colors: [myColor, Colors.purple.shade200],
+            colors: [Colors.black,Colors.white,Colors.black38]
           ),
         ),
         child: Column(
@@ -47,14 +48,14 @@ class _AuthState extends State<Auth> {
                   children: <Widget>[
                     Text(
                       "Login",
-                      style: TextStyle(color: Colors.white, fontSize: 40),
+                      style: TextStyle(color: Colors.black, fontSize: 40),
                     ),
                     SizedBox(
                       height: 5,
                     ),
                     Text(
                       "Welcome Back ",
-                      style: TextStyle(color: Colors.white, fontSize: 22),
+                      style: TextStyle(color: Colors.black, fontSize: 22),
                     ),
                   ],
                 ),
@@ -302,17 +303,19 @@ class _AuthState extends State<Auth> {
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
+
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(50),
                                     ),
                                     fixedSize: Size(300, 30),
+                                    primary: Colors.black
                                   ),
                                   child: Text(
-                                    "Send OTP",
+                                    "Verify OTP",
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.black87,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ),
@@ -340,10 +343,7 @@ class _AuthState extends State<Auth> {
                                       height: 50,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(50),
-                                        gradient: LinearGradient(
-                                          begin: Alignment.topLeft,
-                                          colors: [myColor, Colors.purple],
-                                        ),
+                                       color:Colors.black
                                       ),
                                       child: ElevatedButton(
                                         onPressed: () {
@@ -353,6 +353,7 @@ class _AuthState extends State<Auth> {
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(50),
                                           ),
+                                          primary: Colors.black
                                         ),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.center,
@@ -367,7 +368,7 @@ class _AuthState extends State<Auth> {
                                               style: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
-                                                color: Colors.black,
+                                                color: Colors.white,
                                               ),
                                             ),
                                           ],
@@ -397,21 +398,22 @@ class _AuthState extends State<Auth> {
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(50),
                                           ),
+                                            primary: Colors.black
                                         ),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Image.asset(
-                                              'assets/github_logo.png',
-                                              height: 20,
+                                              'assets/github_lo.png',
+                                              height: 28,
                                             ),
-                                            SizedBox(width: 10),
+                                            SizedBox(width: 5),
                                             Text(
                                               "Github",
                                               style: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
-                                                color: Colors.black,
+                                                color: Colors.white,
                                               ),
                                             ),
                                           ],

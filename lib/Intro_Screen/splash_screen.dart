@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
 
@@ -17,8 +18,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
     _animationController = AnimationController(
       vsync: this,
       duration: Duration(seconds: 3),
-    )
-      ..repeat(reverse: true);
+    )..repeat(reverse: true);
 
     _animation = Tween<double>(begin: -10.0, end: 10.0).animate(
       CurvedAnimation(
@@ -31,9 +31,14 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.purple.shade200,
       body: Container(
-        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight, // Specify end alignment for smoother gradient
+            colors: [Colors.black, Colors.white, Colors.black38],
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -44,9 +49,9 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
                 return Transform.translate(
                   offset: Offset(0.0, _animation.value),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(45.0),
+                    borderRadius: BorderRadius.circular(150.0),
                     child: Image.asset(
-                      'assets/back.jpg',
+                      'assets/back3.jpg',
                       height: 300,
                       width: 300,
                     ),
@@ -85,10 +90,10 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
                     alignment: Alignment.bottomRight,
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context,'Auth');
+                        Navigator.pushNamed(context, 'Auth');
                       },
                       child: Text(
-                        "Explore Now 🚀",
+                          "Explore Now 🚀",
                         style: TextStyle(color: Colors.black, fontSize: 16),
                       ),
                     ),

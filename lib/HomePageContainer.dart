@@ -16,13 +16,10 @@ class CardContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Container(
-        width: 250,
+        width: 150,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            colors: [startColor, endColor],
-          ),
+          color: Colors.black
         ),
         padding: const EdgeInsets.all(10),
         child: Column(
@@ -30,13 +27,13 @@ class CardContainer extends StatelessWidget {
           children: [
             Icon(
               icon.icon,
-              color: Colors.black87,
+              color: Colors.white,
               size: 40,
             ),
             SizedBox(height: 30),
             Text(
               text,
-              style: TextStyle(color: Colors.black, fontSize: 20),
+              style: TextStyle(color: Colors.white, fontSize: 20),
               textAlign: TextAlign.center,
             ),
           ],
