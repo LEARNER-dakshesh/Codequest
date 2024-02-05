@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -73,18 +74,18 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Discover The Best Organic Coding Partner 🌋 ",
-                    style: TextStyle(
+                    "Discover The Best Coding Booster Partner🌋",
+                    style: GoogleFonts.poppins(textStyle:TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
                       color: Colors.black,
-                    ),
+                    )),
                   ),
                   SizedBox(height: 15),
                   Text(
                     "Deep Dive into the heart of Problem Solving",
-                    style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
-                  ),
+                    style: GoogleFonts.poppins(textStyle:TextStyle(fontSize: 14, color: Colors.grey.shade600),
+                  )),
                   SizedBox(height: 20),
                   Align(
                     alignment: Alignment.bottomRight,
@@ -93,9 +94,9 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
                         Navigator.pushNamed(context, 'Auth');
                       },
                       child: Text(
-                          "Explore Now 🚀",
-                        style: TextStyle(color: Colors.black, fontSize: 16),
-                      ),
+                      "Explore Now 🚀",
+                      style: GoogleFonts.poppins(textStyle: TextStyle(color: Colors.black, fontSize: 16)),
+                    ),
                     ),
                   ),
                 ],

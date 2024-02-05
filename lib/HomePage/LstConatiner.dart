@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 class ListContainer extends StatelessWidget {
   const ListContainer({required this.imagepath,required this.text,super.key});
   final String text;
@@ -24,7 +24,7 @@ class ListContainer extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Image.asset(imagepath,scale: 2,),
             ),
-            Text(text,style: TextStyle(color: Colors.white,fontSize: 24),)
+            Text(text,style:GoogleFonts.poppins(textStyle: TextStyle(color: Colors.white,fontSize: 24)),)
           ],
         ),
       ),

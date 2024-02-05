@@ -9,7 +9,7 @@ import 'package:codequest/CodingPlat/CodingNinjas/codingninjas.dart';
 import 'package:codequest/CodingPlat/CodeForces/codeforces.dart';
 import 'package:codequest/CodingPlat/Codechef/codechef.dart';
 import 'package:codequest/data/CodingPlatformsdata.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -68,12 +68,12 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Text(
                       'Hi Dakshesh 👋',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
+                      style:GoogleFonts.poppins(textStyle:TextStyle(color: Colors.white, fontSize: 20),
+                    )),
                     Text(
                       getGreeting() +" !!",
-                      style: TextStyle(color: Colors.white70, fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
+                      style: GoogleFonts.poppins(textStyle:TextStyle(color: Colors.white70, fontSize: 15, fontWeight: FontWeight.bold),
+                    )),
                   ],
                 ),
               ],
@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                     child: SizedBox()) ,
                   GestureDetector(
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Roadmap())),
-                    child: CardContainer(text: "DSA RoadMap", icon: Icon(Icons.alt_route_rounded)),
+                    child: CardContainer(text:"DSA RoadMap", icon: Icon(Icons.alt_route_rounded)),
                   ),
                   Expanded(
                       child: SizedBox()) ,
@@ -103,8 +103,8 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 20),
             Text(
               'Contests',
-              style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),
-            ),
+              style: GoogleFonts.poppins(textStyle:TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),
+            )),
             Expanded(
               child: ListView.builder(
                 shrinkWrap: true,

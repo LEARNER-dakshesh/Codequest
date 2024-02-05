@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Leetcode extends StatefulWidget {
   const Leetcode({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class _LeetcodeState extends State<Leetcode> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor:Color(0xff171d28),
         title: Row(
           children: [
             SizedBox(width: 40),
@@ -25,10 +26,10 @@ class _LeetcodeState extends State<Leetcode> {
             SizedBox(width: 10),
             Text(
               'Leetcode',
-              style: TextStyle(fontSize: 20, color: Colors.white),
-            ),
+              style:GoogleFonts.poppins(textStyle:TextStyle(fontSize: 20, color: Colors.white),
+            )),
             SizedBox(
-              width: 61,
+              width: 52,
             ),
             IconButton(
               onPressed: () {},
@@ -43,19 +44,19 @@ class _LeetcodeState extends State<Leetcode> {
         iconTheme: IconThemeData(color: Colors.white),
       ),
       bottomNavigationBar: Container(
-        color: Colors.black,
+        color: Color(0xff171d28),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
           child: GNav(
-            backgroundColor: Colors.black,
+            backgroundColor: Color(0xff171d28),
             color: Colors.white,
             rippleColor:
-                Colors.grey.shade800, // tab button ripple color when pressed
-            hoverColor: Colors.grey.shade700, // tab button hover color
+            Color(0xff202e3f), // tab button ripple color when pressed
+            hoverColor: Color(0xff202e3f), // tab button hover color
             haptic: true, // haptic feedback
             tabBorderRadius: 15,
             tabActiveBorder:
-                Border.all(color: Colors.black, width: 1), // tab button border
+                Border.all(color: Color(0xff202e3f), width: 1), // tab button border
             tabBorder:
                 Border.all(color: Colors.grey, width: 1), // tab button border
             tabShadow: [
@@ -64,7 +65,7 @@ class _LeetcodeState extends State<Leetcode> {
             curve: Curves.easeOutExpo, // tab animation curves
             duration: Duration(milliseconds: 900),
             activeColor: Colors.white,
-            tabBackgroundColor: Colors.grey.shade800,
+            tabBackgroundColor: Color(0xff202e3f),
             gap: 8,
             padding: EdgeInsets.all(5),
             tabs: [
@@ -80,7 +81,7 @@ class _LeetcodeState extends State<Leetcode> {
                   // Navigator.pushNamed(context, routeName)
                 },
                 iconSize: 30,
-                text: 'Upcommimg ',
+                text: 'Upcommimg',
               ),
             ],
           ),

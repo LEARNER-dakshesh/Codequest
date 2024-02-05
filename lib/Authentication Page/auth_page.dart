@@ -5,6 +5,7 @@ import 'package:email_otp/email_otp.dart';
 import '../Animation/FadeAnimation.dart'; // Assuming you have the FadeAnimation widget
 import 'package:http/http.dart' as http;
 import 'package:email_auth/email_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Auth extends StatefulWidget {
   const Auth({Key? key}) : super(key: key);
@@ -48,15 +49,15 @@ class _AuthState extends State<Auth> {
                   children: <Widget>[
                     Text(
                       "Login",
-                      style: TextStyle(color: Colors.black, fontSize: 40),
-                    ),
+                      style:GoogleFonts.poppins(textStyle:TextStyle(color: Colors.black, fontSize: 40),
+                    )),
                     SizedBox(
                       height: 5,
                     ),
                     Text(
                       "Welcome Back ",
-                      style: TextStyle(color: Colors.black, fontSize: 22),
-                    ),
+                      style:GoogleFonts.poppins(textStyle:TextStyle(color: Colors.black, fontSize: 22),
+                    )),
                   ],
                 ),
               ),
@@ -85,11 +86,11 @@ class _AuthState extends State<Auth> {
                             SizedBox(height: 30),
                             Text(
                               "We need to verify you before getting started !",
-                              style: TextStyle(
+                              style: GoogleFonts.poppins(textStyle:TextStyle(
                                 fontSize: 16,
                                 color: Colors.black87,
                                 fontWeight: FontWeight.bold,
-                              ),
+                              )),
                               textAlign: TextAlign.center,
                             ),
                             SizedBox(
@@ -312,11 +313,11 @@ class _AuthState extends State<Auth> {
                                   ),
                                   child: Text(
                                     "Verify OTP",
-                                    style: TextStyle(
+                                    style:GoogleFonts.poppins(textStyle:TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
-                                    ),
+                                    )),
                                   ),
                                 ),
                               ),
@@ -328,8 +329,8 @@ class _AuthState extends State<Auth> {
                               duration: Duration(milliseconds: 1800),
                               child: Text(
                                 "Continue with Social Media",
-                                style: TextStyle(color: Colors.grey),
-                              ),
+                                style: GoogleFonts.poppins(textStyle:TextStyle(color: Colors.grey),
+                              )),
                             ),
                             SizedBox(
                               height: 30,
@@ -365,11 +366,11 @@ class _AuthState extends State<Auth> {
                                             SizedBox(width: 10),
                                             Text(
                                               "Google",
-                                              style: TextStyle(
-                                                fontSize: 14,
+                                              style:GoogleFonts.poppins(textStyle: TextStyle(
+                                                fontSize: 12,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,
-                                              ),
+                                              )),
                                             ),
                                           ],
                                         ),
@@ -410,11 +411,11 @@ class _AuthState extends State<Auth> {
                                             SizedBox(width: 5),
                                             Text(
                                               "Github",
-                                              style: TextStyle(
-                                                fontSize: 14,
+                                              style: GoogleFonts.poppins(textStyle:TextStyle(
+                                                fontSize: 12,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white,
-                                              ),
+                                              )),
                                             ),
                                           ],
                                         ),
