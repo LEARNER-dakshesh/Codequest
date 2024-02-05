@@ -13,7 +13,7 @@ class ListContainer extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
            // border: Border.all(color: Colors.black),
-            color: Colors.black,
+            color: Color(0xff202e3f),
         ),
         height: 80,
         width: double.maxFinite,

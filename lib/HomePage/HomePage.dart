@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:codequest/HomePageContainer.dart';
-import 'package:codequest/LstConatiner.dart';
+import 'HomePageContainer.dart';
+import 'LstConatiner.dart';
 import 'package:codequest/Roadmap.dart';
 import 'package:codequest/CodingPlat/LeetCode/leetcode.dart';
-
 import 'package:codequest/CodingPlat/HackerEarth/hackerearth.dart';
 import 'package:codequest/CodingPlat/GeeksForGeeks/geeksforgeeks.dart';
 import 'package:codequest/CodingPlat/CodingNinjas/codingninjas.dart';
@@ -45,7 +44,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black38,
+      backgroundColor: Color(0xff171d28),
       body: Padding(
         padding: const EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 0),
         child: Column(
@@ -81,19 +80,23 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(height: 20),
             SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
+
               child: Row(
                 children: [
+                  Expanded(
+                      child: SizedBox()) ,
                   GestureDetector(
                     onTap: () {},
                     child: CardContainer(text: "Beginner Problems", icon: Icon(Icons.star)),
                   ),
-                  SizedBox(width: 5),
+                Expanded(
+                    child: SizedBox()) ,
                   GestureDetector(
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Roadmap())),
                     child: CardContainer(text: "DSA RoadMap", icon: Icon(Icons.alt_route_rounded)),
                   ),
+                  Expanded(
+                      child: SizedBox()) ,
                 ],
               ),
             ),

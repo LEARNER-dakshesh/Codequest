@@ -19,7 +19,7 @@ class CardContainer extends StatelessWidget {
         width: 150,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Colors.black
+          color: Color(0xff202e3f)
         ),
         padding: const EdgeInsets.all(10),
         child: Column(
