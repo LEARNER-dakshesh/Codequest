@@ -1,15 +1,32 @@
 import 'package:flutter/material.dart';
 
-class Lcpst extends StatefulWidget {
-  const Lcpst({Key? key}) : super(key: key);
+class ContestDetailsPage extends StatelessWidget {
+  final dynamic contest;
 
-  @override
-  State<Lcpst> createState() => _LcpstState();
-}
+  const ContestDetailsPage({Key? key, required this.contest}) : super(key: key);
 
-class _LcpstState extends State<Lcpst> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Contest Details'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Event Name: ${contest['event']}',
+              style: TextStyle(fontSize: 20),
+            ),
+            Text(
+              'Start Date: ${contest['start']}',
+              style: TextStyle(fontSize: 20),
+            ),
+            // Add more details as needed
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:codequest/CodingPlat/Leetcode/past_contest.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:codequest/CodingPlat/Leetcode/upcomming.dart';
 import 'package:intl/intl.dart';
@@ -16,10 +17,10 @@ class Leetcode extends StatefulWidget {
 }
 
 class _LeetcodeState extends State<Leetcode> {
-
   String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   Future<void> fetchContests() async {
-     String url = 'https://clist.by/api/v4/contest/?limit=5&host=leetcode.com&end__lt=$formattedDate&order_by=-end';
+    String url =
+        'https://clist.by/api/v4/contest/?limit=5&host=leetcode.com&end__lt=$formattedDate&order_by=-end';
     try {
       final response = await http.get(Uri.parse(url), headers: {
         "Authorization": "ApiKey Dakshesh_Gupta:36f42779bf83119f213ea813c6885d79254b5964"
@@ -45,7 +46,6 @@ class _LeetcodeState extends State<Leetcode> {
     super.initState();
     fetchContests();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -82,28 +82,19 @@ class _LeetcodeState extends State<Leetcode> {
         ),
         iconTheme: IconThemeData(color: Colors.white),
       ),
-        body: ListView.builder(
-          itemCount: contests.length,
-          itemBuilder: (context, index) {
-            final contest = contests[index];
-            String eventName = contest['event'];
-            String startDateTime = contest['start'];
-            String formattedDateTime = DateFormat('dd-MM-yyyy HH:mm').format(DateTime.parse(startDateTime).toLocal());
-
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ContestDetailsPage(contest)),
-                );
-              },
-              child: ListTile(
-                title: Text(eventName),
-                subtitle: Text(formattedDateTime),
-              ),
-            );
-          },
-        ),
+      body: ListView.builder(
+        itemCount: contests.length,
+        itemBuilder: (context,index){
+          final contest=contests[index];
+          return ListTile(
+            title: Text(contest['event']),
+            subtitle: Text(contest['start']),
+            onTap: () async {
+              _launchContestUrl(contest['href']);
+            },
+          );
+        }
+    ),
       bottomNavigationBar: Container(
         color: Color(0xff171d28),
         child: Padding(
@@ -137,7 +128,7 @@ class _LeetcodeState extends State<Leetcode> {
               GButton(
                 icon: Icons.next_week_outlined,
                 onPressed: () {
-               Navigator.push(context, MaterialPageRoute(builder: (context)=>lcnxt()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => lcnxt()));
                   // Navigator.push(context, MaterialPageRoute(builder: (context)=>lcnxt()));
                 },
                 iconSize: 30,
@@ -149,5 +140,20 @@ class _LeetcodeState extends State<Leetcode> {
       ),
     );
   }
+  Future<void> _launchContestUrl(String url) async {
+    String encodedUrl = Uri.encodeFull(url);
+    print('Launching URL: $url');
+    try {
+      Uri uri = Uri.parse(encodedUrl); // Parse the URL string into a Uri object
+      if (await canLaunchUrl(uri)) { // Check if the URL can be launched
+        await launchUrl(uri); // Launch the URL
+      } else {
+        throw 'Error launching URL: $url'; // Throw an error if URL can't be launched
+      }
+    } catch (e) {
+      print('EXCEPTION : $e'); // Print the exception message
+    }
+  }
+
 
 }
