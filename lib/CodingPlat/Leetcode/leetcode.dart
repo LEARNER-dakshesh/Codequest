@@ -1,4 +1,10 @@
+import 'dart:convert';
+import 'package:codequest/CodingPlat/Leetcode/past_contest.dart';
+import 'package:codequest/CodingPlat/Leetcode/upcomming.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,11 +16,43 @@ class Leetcode extends StatefulWidget {
 }
 
 class _LeetcodeState extends State<Leetcode> {
+
+  String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  Future<void> fetchContests() async {
+     String url = 'https://clist.by/api/v4/contest/?limit=5&host=leetcode.com&end__lt=$formattedDate&order_by=-end';
+    try {
+      final response = await http.get(Uri.parse(url), headers: {
+        // If your API requires authorization or other headers, add them here
+        "Authorization": "ApiKey Dakshesh_Gupta:36f42779bf83119f213ea813c6885d79254b5964"
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        setState(() {
+          contests = data['objects'];
+        });
+      } else {
+        print('Failed to load contests');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  List<dynamic> contests = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchContests();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:Color(0xff171d28),
+        backgroundColor: Color(0xff171d28),
         title: Row(
           children: [
             SizedBox(width: 40),
@@ -26,8 +64,10 @@ class _LeetcodeState extends State<Leetcode> {
             SizedBox(width: 10),
             Text(
               'Leetcode',
-              style:GoogleFonts.poppins(textStyle:TextStyle(fontSize: 20, color: Colors.white),
-            )),
+              style: GoogleFonts.poppins(
+                textStyle: TextStyle(fontSize: 20, color: Colors.white),
+              ),
+            ),
             SizedBox(
               width: 52,
             ),
@@ -43,6 +83,16 @@ class _LeetcodeState extends State<Leetcode> {
         ),
         iconTheme: IconThemeData(color: Colors.white),
       ),
+        body: ListView.builder(
+          itemCount: contests.length,
+          itemBuilder: (context, index) {
+            final contest = contests[index];
+            // Display only the contest name
+            return ListTile(
+              title: Text(contest['event']), // Use 'event' key to show the contest name
+            );
+          },
+        ),
       bottomNavigationBar: Container(
         color: Color(0xff171d28),
         child: Padding(
@@ -50,19 +100,14 @@ class _LeetcodeState extends State<Leetcode> {
           child: GNav(
             backgroundColor: Color(0xff171d28),
             color: Colors.white,
-            rippleColor:
-            Color(0xff202e3f), // tab button ripple color when pressed
-            hoverColor: Color(0xff202e3f), // tab button hover color
-            haptic: true, // haptic feedback
+            rippleColor: Color(0xff202e3f),
+            hoverColor: Color(0xff202e3f),
+            haptic: true,
             tabBorderRadius: 15,
-            tabActiveBorder:
-                Border.all(color: Color(0xff202e3f), width: 1), // tab button border
-            tabBorder:
-                Border.all(color: Colors.grey, width: 1), // tab button border
-            tabShadow: [
-              BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 8)
-            ], // tab button shadow
-            curve: Curves.easeOutExpo, // tab animation curves
+            tabActiveBorder: Border.all(color: Color(0xff202e3f), width: 1),
+            tabBorder: Border.all(color: Colors.grey, width: 1),
+            tabShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 8)],
+            curve: Curves.easeOutExpo,
             duration: Duration(milliseconds: 900),
             activeColor: Colors.white,
             tabBackgroundColor: Color(0xff202e3f),
@@ -71,17 +116,21 @@ class _LeetcodeState extends State<Leetcode> {
             tabs: [
               GButton(
                 icon: Icons.skip_previous_outlined,
-                onPressed: (){},
+                onPressed: () {
+                  fetchContests();
+                  // Navigator.push(context, MaterialPageRoute(builder: (context)=>Lcpst()));
+                },
                 iconSize: 30,
                 text: 'Past Contest',
               ),
               GButton(
                 icon: Icons.next_week_outlined,
-                onPressed: (){
-                  // Navigator.pushNamed(context, routeName)
+                onPressed: () {
+                  fetchContests();
+                  // Navigator.push(context, MaterialPageRoute(builder: (context)=>lcnxt()));
                 },
                 iconSize: 30,
-                text: 'Upcommimg',
+                text: 'Upcoming',
               ),
             ],
           ),

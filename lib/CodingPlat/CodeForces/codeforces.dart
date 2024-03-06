@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:http/http.dart' as http;
+
 class Codeforces extends StatefulWidget {
   const Codeforces({Key? key}) : super(key: key);
 
@@ -8,6 +13,35 @@ class Codeforces extends StatefulWidget {
 }
 
 class _CodeforcesState extends State<Codeforces> {
+  List<dynamic> contests = [];
+  String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  Future<void> fetchContests() async {
+    String url = 'https://clist.by/api/v4/contest/?limit=5&host=codeforces.com&end__lt=$formattedDate&order_by=-end';
+    try {
+      final response = await http.get(Uri.parse(url), headers: {
+        "Authorization": "ApiKey Dakshesh_Gupta:36f42779bf83119f213ea813c6885d79254b5964"
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        setState(() {
+          contests = data['objects']; // Adjust this according to your API response structure
+        });
+      } else {
+        print('Failed to load contests');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+  @override
+  void initState() {
+    super.initState();
+    fetchContests();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +75,16 @@ class _CodeforcesState extends State<Codeforces> {
         ),
         iconTheme: IconThemeData(color: Colors.white),
       ),
+      body: ListView.builder(
+        itemCount: contests.length,
+        itemBuilder: (context, index) {
+          final contest = contests[index];
+          // Display only the contest name
+          return ListTile(
+            title: Text(contest['event']), // Use 'event' key to show the contest name
+          );
+        },
+      ),
       bottomNavigationBar: Container(
         color: Colors.black,
         child: Padding(
@@ -66,7 +110,9 @@ class _CodeforcesState extends State<Codeforces> {
                 icon: Icons.skip_previous_outlined,
                 iconSize: 30,
                 text: 'Past Contest',
-                onPressed: (){},
+                onPressed: (){
+                  fetchContests();
+                },
               ),
               GButton(
                 icon: Icons.next_week_outlined,

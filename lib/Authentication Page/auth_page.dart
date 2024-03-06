@@ -307,9 +307,8 @@ class _AuthState extends State<Auth> {
 
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(50),
-                                    ),
-                                    fixedSize: Size(300, 30),
-                                    primary: Colors.black
+                                    ), backgroundColor: Colors.black,
+                                    fixedSize: Size(300, 30)
                                   ),
                                   child: Text(
                                     "Verify OTP",
@@ -353,8 +352,7 @@ class _AuthState extends State<Auth> {
                                         style: ElevatedButton.styleFrom(
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(50),
-                                          ),
-                                          primary: Colors.black
+                                          ), backgroundColor: Colors.black
                                         ),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.center,
@@ -398,8 +396,7 @@ class _AuthState extends State<Auth> {
                                         style: ElevatedButton.styleFrom(
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(50),
-                                          ),
-                                            primary: Colors.black
+                                          ), backgroundColor: Colors.black
                                         ),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.center,

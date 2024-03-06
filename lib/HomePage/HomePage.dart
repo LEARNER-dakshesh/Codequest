@@ -80,7 +80,6 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(height: 20),
             SingleChildScrollView(
-
               child: Row(
                 children: [
                   Expanded(
