@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'package:codequest/CodingPlat/Leetcode/past_contest.dart';
+import 'package:timezone/timezone.dart' as tz;
 import 'package:codequest/CodingPlat/Leetcode/upcomming.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Leetcode extends StatefulWidget {
   const Leetcode({Key? key}) : super(key: key);
@@ -22,7 +22,6 @@ class _LeetcodeState extends State<Leetcode> {
      String url = 'https://clist.by/api/v4/contest/?limit=5&host=leetcode.com&end__lt=$formattedDate&order_by=-end';
     try {
       final response = await http.get(Uri.parse(url), headers: {
-        // If your API requires authorization or other headers, add them here
         "Authorization": "ApiKey Dakshesh_Gupta:36f42779bf83119f213ea813c6885d79254b5964"
       });
 
@@ -87,9 +86,21 @@ class _LeetcodeState extends State<Leetcode> {
           itemCount: contests.length,
           itemBuilder: (context, index) {
             final contest = contests[index];
-            // Display only the contest name
-            return ListTile(
-              title: Text(contest['event']), // Use 'event' key to show the contest name
+            String eventName = contest['event'];
+            String startDateTime = contest['start'];
+            String formattedDateTime = DateFormat('dd-MM-yyyy HH:mm').format(DateTime.parse(startDateTime).toLocal());
+
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ContestDetailsPage(contest)),
+                );
+              },
+              child: ListTile(
+                title: Text(eventName),
+                subtitle: Text(formattedDateTime),
+              ),
             );
           },
         ),
@@ -126,7 +137,7 @@ class _LeetcodeState extends State<Leetcode> {
               GButton(
                 icon: Icons.next_week_outlined,
                 onPressed: () {
-                  fetchContests();
+               Navigator.push(context, MaterialPageRoute(builder: (context)=>lcnxt()));
                   // Navigator.push(context, MaterialPageRoute(builder: (context)=>lcnxt()));
                 },
                 iconSize: 30,
@@ -138,4 +149,5 @@ class _LeetcodeState extends State<Leetcode> {
       ),
     );
   }
+
 }

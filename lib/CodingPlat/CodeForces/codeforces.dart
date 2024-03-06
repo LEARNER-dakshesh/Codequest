@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:codequest/CodingPlat/CodeForces/upcomming.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -81,7 +82,8 @@ class _CodeforcesState extends State<Codeforces> {
           final contest = contests[index];
           // Display only the contest name
           return ListTile(
-            title: Text(contest['event']), // Use 'event' key to show the contest name
+            title: Text(contest['event']),
+            subtitle: Text(contest['start']),// Use 'event' key to show the contest name
           );
         },
       ),
@@ -118,7 +120,9 @@ class _CodeforcesState extends State<Codeforces> {
                 icon: Icons.next_week_outlined,
                 iconSize: 30,
                 text: 'Upcommimg ',
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>cfnxt()));
+                },
               ),
             ],
           ),

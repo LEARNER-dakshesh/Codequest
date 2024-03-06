@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:codequest/CodingPlat/GeeksForGeeks/upcomming.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class GeeksForGeeks extends StatefulWidget {
 class _GeeksForGeeksState extends State<GeeksForGeeks> {
   Future<void> fetchContests() async {
     String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    String url = 'https://clist.by/api/v4/contest/?limit=5&host=geeksforgeeks.org&end__lt=$formattedDate&order_by=-end';
+    String url = 'https://clist.by/api/v4/contest/?limit=15&host=geeksforgeeks.org&end__lt=$formattedDate&order_by=-end';
     try {
       final response = await http.get(Uri.parse(url), headers: {
         "Authorization": "ApiKey Dakshesh_Gupta:36f42779bf83119f213ea813c6885d79254b5964"
@@ -33,26 +34,7 @@ class _GeeksForGeeksState extends State<GeeksForGeeks> {
     }
   }
 
-  Future<void> upCommingContest() async {
-    String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    String url = 'https://clist.by/api/v4/contest/?limit=5&host=geeksforgeeks.org&start__gt=$formattedDate&order_by=start';
-    try {
-      final response = await http.get(Uri.parse(url), headers: {
-        "Authorization": "ApiKey Dakshesh_Gupta:36f42779bf83119f213ea813c6885d79254b5964"
-      });
 
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        setState(() {
-          upcomming = data['objects'];
-        });
-      } else {
-        print('Failed to load contests');
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
 
   List<dynamic> contests = [];
   List<dynamic> upcomming = [];
@@ -102,6 +84,7 @@ class _GeeksForGeeksState extends State<GeeksForGeeks> {
           final contest = contests[index];
           return ListTile(
             title: Text(contest['event']),
+            subtitle: Text(contest['start']),
           );
         },
       ),
@@ -139,7 +122,7 @@ class _GeeksForGeeksState extends State<GeeksForGeeks> {
                 iconSize: 30,
                 text: 'Upcoming',
                 onPressed: () {
-                  upCommingContest();
+                  Navigator.push(context,MaterialPageRoute(builder: (context)=>gfgnxt()));
                 },
               ),
             ],

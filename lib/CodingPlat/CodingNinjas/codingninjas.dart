@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'package:codequest/CodingPlat/CodingNinjas/upcomming.dart';
+import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 class CodingNinjas extends StatefulWidget {
@@ -8,6 +12,38 @@ class CodingNinjas extends StatefulWidget {
 }
 
 class _CodingNinjasState extends State<CodingNinjas> {
+
+  Future<void>ninjaspst() async{
+
+    String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    print(formattedDate);
+    String url = 'https://clist.by/api/v4/contest/?limit=15&host=codingninjas.com/codestudio&end__lt=$formattedDate&order_by=-end';
+    try {
+      final response = await http.get(Uri.parse(url), headers: {
+        "Authorization": "ApiKey Dakshesh_Gupta:36f42779bf83119f213ea813c6885d79254b5964"
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        setState(() {
+          contests = data['objects'];
+        });
+      } else {
+        print('Failed to load contests');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  List<dynamic>contests=[];
+
+  @override
+  void initState() {
+    super.initState();
+    ninjaspst();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +77,16 @@ class _CodingNinjasState extends State<CodingNinjas> {
         ),
         iconTheme: IconThemeData(color: Colors.white),
       ),
+      body: ListView.builder(
+        itemCount: contests.length,
+        itemBuilder: (context, index) {
+          final contest = contests[index];
+          return ListTile(
+            title: Text(contest['event']),
+            subtitle: Text(contest['start']),
+          );
+        },
+      ),
       bottomNavigationBar: Container(
         color: Colors.black,
         child: Padding(
@@ -66,13 +112,17 @@ class _CodingNinjasState extends State<CodingNinjas> {
                 icon: Icons.skip_previous_outlined,
                 iconSize: 30,
                 text: 'Past Contest',
-                onPressed: (){},
+                onPressed: (){
+                  ninjaspst();
+                },
               ),
               GButton(
                 icon: Icons.next_week_outlined,
                 iconSize: 30,
                 text: 'Upcommimg ',
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ninjasnxt()));
+                },
               ),
             ],
           ),

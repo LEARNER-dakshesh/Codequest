@@ -113,10 +113,7 @@ class _HomePageState extends State<HomePage> {
                   return GestureDetector(
                     onTap: () {
                       String platformName = CodingPlatformdata[index].name;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
+                      Navigator.push( context,MaterialPageRoute(builder: (context) {
                             if (platformScreens.containsKey(platformName)) {
                               return platformScreens[platformName]!;
                             } else {
