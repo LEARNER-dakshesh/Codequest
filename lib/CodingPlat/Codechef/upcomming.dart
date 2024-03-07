@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class Codechefnxt extends StatefulWidget {
   const Codechefnxt({Key? key}) : super(key: key);
@@ -82,8 +83,12 @@ class _CodechefnxtState extends State<Codechefnxt> {
           print(contest['event']);
           String formattedDate1 = DateFormat('dd-MM-yyyy HH:mm').format(DateTime.parse(contest['start']));
           return ListTile(
+            leading : Image.asset('assets/CodingPlatformsIcons/img_1.png',height: 30,width: 30,),
             title: Text(contest['event']),
             subtitle: Text(formattedDate1),
+            onTap: () async{
+              _launchContestUrl(contest['href']);
+            },
           );
       }),
       bottomNavigationBar: Container(
@@ -128,5 +133,11 @@ class _CodechefnxtState extends State<Codechefnxt> {
         ),
       ),
     );
+  }
+  Future<void> _launchContestUrl(String url) async {
+    final Uri _url=Uri.parse(url);
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:codequest/CodingPlat/GeeksForGeeks/upcomming.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -83,8 +84,12 @@ class _GeeksForGeeksState extends State<GeeksForGeeks> {
         itemBuilder: (context, index) {
           final contest = contests[index];
           return ListTile(
+            leading : Image.asset('assets/CodingPlatformsIcons/img_6.png',height: 30,width: 30,),
             title: Text(contest['event']),
             subtitle: Text(contest['start']),
+            onTap: () async{
+              _launchContestUrl(contest['href']);
+            },
           );
         },
       ),
@@ -130,5 +135,11 @@ class _GeeksForGeeksState extends State<GeeksForGeeks> {
         ),
       ),
     );
+  }
+  Future<void> _launchContestUrl(String url) async {
+    final Uri _url=Uri.parse(url);
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
   }
 }

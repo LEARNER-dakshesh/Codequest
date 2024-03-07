@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../BeginnerProblem.dart';
 import 'HomePageContainer.dart';
 import 'LstConatiner.dart';
 import 'package:codequest/Roadmap.dart';
@@ -85,9 +86,9 @@ class _HomePageState extends State<HomePage> {
                   Expanded(
                       child: SizedBox()) ,
                   GestureDetector(
-                    onTap: () {},
-                    child: CardContainer(text: "Beginner Problems", icon: Icon(Icons.star)),
-                  ),
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => BeginnerProblem())),
+                      child: CardContainer(text: "Beginner Problems", icon: Icon(Icons.star)),
+                      ),
                 Expanded(
                     child: SizedBox()) ,
                   GestureDetector(

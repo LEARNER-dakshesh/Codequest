@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:codequest/CodingPlat/GeeksForGeeks/geeksforgeeks.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_nav_bar/google_nav_bar.dart';
 class gfgnxt extends StatefulWidget {
@@ -79,8 +80,12 @@ class _gfgnxtState extends State<gfgnxt> {
         itemBuilder: (context, index) {
           final contest = upcomming[index];
           return ListTile(
+            leading : Image.asset('assets/CodingPlatformsIcons/img_6.png',height: 30,width: 30,),
             title: Text(contest['event']),
             subtitle: Text(contest['start']),
+            onTap: () async{
+              _launchContestUrl(contest['href']);
+            },
           );
         },
       ),
@@ -126,5 +131,11 @@ class _gfgnxtState extends State<gfgnxt> {
         ),
       ),
     );
+  }
+  Future<void> _launchContestUrl(String url) async {
+    final Uri _url=Uri.parse(url);
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
   }
 }

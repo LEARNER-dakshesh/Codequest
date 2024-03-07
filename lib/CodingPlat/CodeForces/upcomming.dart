@@ -2,6 +2,7 @@ import 'package:codequest/CodingPlat/CodeForces/codeforces.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
 
@@ -81,8 +82,12 @@ class _cfnxtState extends State<cfnxt> {
           final contest = upcomming[index];
           // Display only the contest name
           return ListTile(
+            leading : Image.asset('assets/CodingPlatformsIcons/img_5.png',height: 30,width: 30,),
             title: Text(contest['event']),
-            subtitle: Text(contest['start']),// Use 'event' key to show the contest name
+            subtitle: Text(contest['start']),
+            onTap: () async{
+              _launchContestUrl(contest['href']);
+            },
           );
         },
       ),
@@ -128,5 +133,11 @@ class _cfnxtState extends State<cfnxt> {
         ),
       ),
     );
+  }
+  Future<void> _launchContestUrl(String url) async {
+    final Uri _url=Uri.parse(url);
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
   }
 }

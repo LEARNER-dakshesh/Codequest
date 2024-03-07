@@ -49,8 +49,8 @@ class _TapListState extends State<TapList> {
       itemCount: topics.length,
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: () {
-            _launchWebsite(_generateWebsiteUrl(index));
+          onTap: () async{
+            _launchWebsite(webSites[index]);
           },
           child: Container(
             height: 80,
@@ -73,7 +73,7 @@ class _TapListState extends State<TapList> {
     );
   }
 
-  void _launchWebsite(String url) async {
+  Future<void> _launchWebsite(String url) async {
     Uri uri=Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);

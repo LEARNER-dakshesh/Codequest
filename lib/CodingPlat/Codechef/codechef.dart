@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class Codechef extends StatefulWidget {
   const Codechef({Key? key}) : super(key: key);
@@ -76,12 +77,17 @@ class _CodechefState extends State<Codechef> {
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: ListView.builder(
+
        itemCount: contests.length,
        itemBuilder: (context,index){
          final contest=contests[index];
          return ListTile(
+           leading : Image.asset('assets/CodingPlatformsIcons/img_1.png',height: 30,width: 30,),
            title: Text(contest['event']),
            subtitle: Text(contest['start']),
+           onTap: () async{
+             _launchContestUrl(contest['href']);
+           },
          );
        }
       ),
@@ -127,5 +133,11 @@ class _CodechefState extends State<Codechef> {
         ),
       ),
     );
+  }
+  Future<void> _launchContestUrl(String url) async {
+    final Uri _url=Uri.parse(url);
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
   }
 }

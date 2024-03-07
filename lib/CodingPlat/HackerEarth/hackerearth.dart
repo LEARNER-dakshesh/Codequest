@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:codequest/CodingPlat/HackerEarth/upcomming.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -89,8 +89,12 @@ class _HackerearthState extends State<Hackerearth> {
           final contest = contests[index];
           // print(contest['event']);
           return ListTile(
+            leading : Image.asset('assets/CodingPlatformsIcons/img_3.png',height: 30,width: 30,),
             title: Text(contest['event']),
             subtitle: Text(contest['start']),
+            onTap: () async{
+              _launchContestUrl(contest['href']);
+           },
           );
         },
       ),
@@ -134,5 +138,12 @@ class _HackerearthState extends State<Hackerearth> {
         ),
       ),
     );
+  }
+  Future<void> _launchContestUrl(String url) async {
+
+    final Uri _url=Uri.parse(url);
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
   }
 }

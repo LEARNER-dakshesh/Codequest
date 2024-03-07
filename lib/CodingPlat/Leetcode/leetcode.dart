@@ -20,7 +20,7 @@ class _LeetcodeState extends State<Leetcode> {
   String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   Future<void> fetchContests() async {
     String url =
-        'https://clist.by/api/v4/contest/?limit=5&host=leetcode.com&end__lt=$formattedDate&order_by=-end';
+        'https://clist.by/api/v4/contest/?limit=15&host=leetcode.com&end__lt=$formattedDate&order_by=-end';
     try {
       final response = await http.get(Uri.parse(url), headers: {
         "Authorization": "ApiKey Dakshesh_Gupta:36f42779bf83119f213ea813c6885d79254b5964"
@@ -87,6 +87,7 @@ class _LeetcodeState extends State<Leetcode> {
         itemBuilder: (context,index){
           final contest=contests[index];
           return ListTile(
+            leading : Image.asset('assets/CodingPlatformsIcons/img.png',height: 30,width: 30,),
             title: Text(contest['event']),
             subtitle: Text(contest['start']),
             onTap: () async {
@@ -141,19 +142,11 @@ class _LeetcodeState extends State<Leetcode> {
     );
   }
   Future<void> _launchContestUrl(String url) async {
-    String encodedUrl = Uri.encodeFull(url);
-    print('Launching URL: $url');
-    try {
-      Uri uri = Uri.parse(encodedUrl); // Parse the URL string into a Uri object
-      if (await canLaunchUrl(uri)) { // Check if the URL can be launched
-        await launchUrl(uri); // Launch the URL
-      } else {
-        throw 'Error launching URL: $url'; // Throw an error if URL can't be launched
-      }
-    } catch (e) {
-      print('EXCEPTION : $e'); // Print the exception message
+
+    final Uri _url=Uri.parse(url);
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
     }
   }
-
 
 }
