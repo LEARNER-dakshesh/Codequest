@@ -4,7 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+
+Future<void>_handleRefresh() async{
+  return await Future.delayed(Duration(seconds: 2));
+}
+
 class gfgnxt extends StatefulWidget {
   const gfgnxt({Key? key}) : super(key: key);
 
@@ -44,89 +51,100 @@ class _gfgnxtState extends State<gfgnxt> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Row(
-          children: [
-            SizedBox(width: 25),
-            Image.asset(
-              'assets/CodingPlatformsIcons/img_6.png',
-              height: 30,
-              width: 30,
-            ),
-            SizedBox(width: 7),
-            Text(
-              'GeeksForGeeks',
-              style: TextStyle(fontSize: 20, color: Colors.white),
-            ),
-            SizedBox(
-              width: 22,
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.alarm,
-                size: 26,
-                color: Colors.white,
+    return  LiquidPullToRefresh(
+      onRefresh: _handleRefresh,
+      color: Color(0xff171d28),
+      height: 800,
+      animSpeedFactor: 10,
+      showChildOpacityTransition: true,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xff171d28),
+          title: Row(
+            children: [
+              SizedBox(width: 25),
+              Image.asset(
+                'assets/CodingPlatformsIcons/img_6.png',
+                height: 30,
+                width: 30,
               ),
-            ),
-          ],
-        ),
-        iconTheme: IconThemeData(color: Colors.white),
-      ),
-      body: ListView.builder(
-        itemCount: upcomming.length,
-        itemBuilder: (context, index) {
-          final contest = upcomming[index];
-          return ListTile(
-            leading : Image.asset('assets/CodingPlatformsIcons/img_6.png',height: 30,width: 30,),
-            title: Text(contest['event']),
-            subtitle: Text(contest['start']),
-            onTap: () async{
-              _launchContestUrl(contest['href']);
-            },
-          );
-        },
-      ),
-      bottomNavigationBar: Container(
-        color: Colors.black,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
-          child: GNav(
-            backgroundColor: Colors.black,
-            color: Colors.white,
-            rippleColor: Colors.grey.shade800,
-            hoverColor: Colors.grey.shade700,
-            haptic: true,
-            tabBorderRadius: 15,
-            tabActiveBorder: Border.all(color: Colors.black, width: 1),
-            tabBorder: Border.all(color: Colors.grey, width: 1),
-            tabShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 8)],
-            curve: Curves.easeOutExpo,
-            duration: Duration(milliseconds: 900),
-            activeColor: Colors.white,
-            tabBackgroundColor: Colors.grey.shade800,
-            gap: 8,
-            padding: EdgeInsets.all(5),
-            tabs: [
-              GButton(
-                icon: Icons.skip_previous_outlined,
-                iconSize: 30,
-                text: 'Past Contest',
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>GeeksForGeeks()));
-                },
+              SizedBox(width: 7),
+              Text(
+                'GeeksForGeeks',
+                style: TextStyle(fontSize: 20, color: Colors.white),
               ),
-              GButton(
-                icon: Icons.next_week_outlined,
-                iconSize: 30,
-                text: 'Upcoming',
-                onPressed: () {
-                  upCommingContest();
-                },
+              SizedBox(
+                width: 22,
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.alarm,
+                  size: 26,
+                  color: Colors.white,
+                ),
               ),
             ],
+          ),
+          iconTheme: IconThemeData(color: Colors.white),
+        ),
+        body: upcomming.isEmpty
+            ? Center(
+          child: CircularProgressIndicator(color:Color(0xff171d28),),
+        ):ListView.builder(
+          itemCount: upcomming.length,
+          itemBuilder: (context, index) {
+            final contest = upcomming[index];
+            return ListTile(
+              leading : Image.asset('assets/CodingPlatformsIcons/img_6.png',height: 30,width: 30,),
+              title: Text(contest['event']),
+              subtitle: Text(contest['start']),
+              onTap: () async{
+                _launchContestUrl(contest['href']);
+              },
+              trailing: Lottie.asset('assets/go_ahead.json',height: 120,width: 40),
+            );
+          },
+        ),
+        bottomNavigationBar: Container(
+          color: Color(0xff171d28),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
+            child: GNav(
+              backgroundColor: Color(0xff171d28),
+              color: Colors.white,
+              rippleColor: Color(0xff202e3f),
+              hoverColor: Color(0xff202e3f),
+              haptic:true,
+              tabBorderRadius: 15,
+              tabActiveBorder: Border.all(color: Color(0xff202e3f), width: 1),
+              tabBorder: Border.all(color: Colors.grey, width: 1),
+              tabShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 8)],
+              curve: Curves.easeOutExpo,
+              duration: Duration(milliseconds: 900),
+              activeColor: Colors.white,
+              tabBackgroundColor: Color(0xff202e3f),
+              gap: 8,
+              padding: EdgeInsets.all(5),
+              tabs: [
+                GButton(
+                  icon: Icons.skip_previous_outlined,
+                  iconSize: 30,
+                  text: 'Past Contest',
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>GeeksForGeeks()));
+                  },
+                ),
+                GButton(
+                  icon: Icons.next_week_outlined,
+                  iconSize: 30,
+                  text: 'Upcoming',
+                  onPressed: () {
+                    upCommingContest();
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

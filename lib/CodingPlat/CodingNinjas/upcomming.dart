@@ -5,6 +5,11 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+
+Future<void>_handleRefresh() async{
+  return await Future.delayed(Duration(seconds: 2));
+}
 
 class ninjasnxt extends StatefulWidget {
   const ninjasnxt({Key? key}) : super(key: key);
@@ -48,89 +53,99 @@ class _ninjasnxtState extends State<ninjasnxt> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Row(
-          children: [
-            SizedBox(width: 25),
-            Image.asset(
-              'assets/CodingPlatformsIcons/img_4.png',
-              height: 30,
-              width: 30,
-            ),
-            SizedBox(width: 10),
-            Text(
-              'Coding Ninjas',
-              style: TextStyle(fontSize: 20,color: Colors.white),
-            ),
-            SizedBox(
-              width: 35,
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.alarm,
-                size: 27,
-                color: Colors.white,
+    return LiquidPullToRefresh(
+      onRefresh: _handleRefresh,
+      color: Color(0xff171d28),
+      height: 800,
+      animSpeedFactor: 10,
+      showChildOpacityTransition: true,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xff171d28),
+          title: Row(
+            children: [
+              SizedBox(width: 25),
+              Image.asset(
+                'assets/CodingPlatformsIcons/img_4.png',
+                height: 30,
+                width: 30,
               ),
-            ),
-          ],
-        ),
-        iconTheme: IconThemeData(color: Colors.white),
-      ),
-      body: ListView.builder(
-        itemCount: upcomming.length,
-        itemBuilder: (context, index) {
-          final contest = upcomming[index];
-          return ListTile(
-            leading : Image.asset('assets/CodingPlatformsIcons/img_4.png',height: 30,width: 30,),
-            title: Text(contest['event']),
-            subtitle: Text(contest['start']),
-            onTap: () async{
-              _launchContestUrl(contest['href']);
-            },
-          );
-        },
-      ),
-      bottomNavigationBar: Container(
-        color: Colors.black,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
-          child: GNav(
-            backgroundColor: Colors.black,
-            color: Colors.white,
-            rippleColor: Colors.grey.shade800, // tab button ripple color when pressed
-            hoverColor: Colors.grey.shade700, // tab button hover color
-            haptic: true, // haptic feedback
-            tabBorderRadius: 15,
-            tabActiveBorder: Border.all(color: Colors.black, width: 1), // tab button border
-            tabBorder: Border.all(color: Colors.grey, width: 1), // tab button border
-            tabShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 8)], // tab button shadow
-            curve: Curves.easeOutExpo, // tab animation curves
-            duration: Duration(milliseconds: 900),
-            activeColor: Colors.white,
-            tabBackgroundColor: Colors.grey.shade800,
-            gap: 8,
-            padding: EdgeInsets.all(5),
-            tabs: [
-              GButton(
-                icon: Icons.skip_previous_outlined,
-                iconSize: 30,
-                text: 'Past Contest',
-                onPressed: (){
-                 Navigator.push(context, MaterialPageRoute(builder: (context)=>CodingNinjas()));
-                },
+              SizedBox(width: 10),
+              Text(
+                'Coding Ninjas',
+                style: TextStyle(fontSize: 20,color: Colors.white),
               ),
-              GButton(
-                icon: Icons.next_week_outlined,
-                iconSize: 30,
-                text: 'Upcommimg ',
-                onPressed: (){
-                 ninjasnxt();
-                },
+              SizedBox(
+                width: 35,
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.alarm,
+                  size: 27,
+                  color: Colors.white,
+                ),
               ),
             ],
+          ),
+          iconTheme: IconThemeData(color: Colors.white),
+        ),
+        body:upcomming.isEmpty
+            ? Center(
+          child: CircularProgressIndicator(color:Color(0xff171d28),),
+        ): ListView.builder(
+          itemCount: upcomming.length,
+          itemBuilder: (context, index) {
+            final contest = upcomming[index];
+            return ListTile(
+              leading : Image.asset('assets/CodingPlatformsIcons/img_4.png',height: 30,width: 30,),
+              title: Text(contest['event']),
+              subtitle: Text(contest['start']),
+              onTap: () async{
+                _launchContestUrl(contest['href']);
+              },
+            );
+          },
+        ),
+        bottomNavigationBar: Container(
+          color: Color(0xff171d28),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
+            child: GNav(
+              backgroundColor: Color(0xff171d28),
+              color: Colors.white,
+              rippleColor: Color(0xff202e3f),
+              hoverColor: Color(0xff202e3f),
+              haptic:true,
+              tabBorderRadius: 15,
+              tabActiveBorder: Border.all(color: Color(0xff202e3f), width: 1),
+              tabBorder: Border.all(color: Colors.grey, width: 1),
+              tabShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 8)],
+              curve: Curves.easeOutExpo,
+              duration: Duration(milliseconds: 900),
+              activeColor: Colors.white,
+              tabBackgroundColor: Color(0xff202e3f),
+              gap: 8,
+              padding: EdgeInsets.all(5),
+              tabs: [
+                GButton(
+                  icon: Icons.skip_previous_outlined,
+                  iconSize: 30,
+                  text: 'Past Contest',
+                  onPressed: (){
+                   Navigator.push(context, MaterialPageRoute(builder: (context)=>CodingNinjas()));
+                  },
+                ),
+                GButton(
+                  icon: Icons.next_week_outlined,
+                  iconSize: 30,
+                  text: 'Upcommimg ',
+                  onPressed: (){
+                   ninjasnxt();
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    // Navigate to account settings screen
+                    // Handle onTap action if needed
                   },
                   child: Icon(
                     Icons.account_circle,
@@ -69,13 +69,24 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Text(
                       'Hi Dakshesh 👋',
-                      style:GoogleFonts.poppins(textStyle:TextStyle(color: Colors.white, fontSize: 20),
-                    )),
+                      style: GoogleFonts.poppins(textStyle: TextStyle(color: Colors.white, fontSize: 20)),
+                    ),
                     Text(
                       getGreeting() +" !!",
-                      style: GoogleFonts.poppins(textStyle:TextStyle(color: Colors.white70, fontSize: 15, fontWeight: FontWeight.bold),
-                    )),
+                      style: GoogleFonts.poppins(textStyle: TextStyle(color: Colors.white70, fontSize: 15, fontWeight: FontWeight.bold)),
+                    ),
                   ],
+                ),
+                Spacer(), // Added Spacer widget to push the drawer icon to the right
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, 'Drawer');
+                  },
+                  child: Icon(
+                    Icons.menu, // Replace 'Icons.menu' with the appropriate drawer icon
+                    color: Colors.white,
+                    size: 30,
+                  ),
                 ),
               ],
             ),
@@ -128,8 +139,15 @@ class _HomePageState extends State<HomePage> {
                         ),
                       );
                     },
-                    child: ListContainer(
-                      text: CodingPlatformdata[index].name,
+                    child:ListContainer(
+                      text: CodingPlatformdata[index].name, // Pass the text content directly
+                      textStyle: GoogleFonts.poppins( // Apply GoogleFonts.poppins style here
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       imagepath: CodingPlatformdata[index].imagePath,
                     ),
                   );

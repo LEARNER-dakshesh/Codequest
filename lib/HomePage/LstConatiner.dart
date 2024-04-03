@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 class ListContainer extends StatelessWidget {
-  const ListContainer({required this.imagepath,required this.text,super.key});
+  const ListContainer({required this.imagepath,required this.text,super.key, required TextStyle textStyle});
   final String text;
   final String imagepath;
 
