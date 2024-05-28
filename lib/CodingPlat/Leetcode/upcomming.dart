@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:codequest/CodingPlat/LeetCode/leetcode.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -40,7 +41,6 @@ class _lcnxtState extends State<lcnxt> {
       }
     }
   List<dynamic> upcomming = [];
-
 
   @override
   void initState() {
@@ -97,11 +97,19 @@ class _lcnxtState extends State<lcnxt> {
           itemBuilder: (context, index) {
             final contest = upcomming[index];
             print(contest['event']);
-            // Display only the contest name
+            DateTime startDate = DateTime.parse(contest['start']);
+            DateTime utcDate = DateTime.parse(contest['start']);
+            DateTime istDate = utcDate.add(Duration(hours: 5, minutes: 30));
+            String formattedStartDate = DateFormat('dd-MM-yyyy – hh:mm a').format(istDate);
             return ListTile(
               leading : Image.asset('assets/CodingPlatformsIcons/img.png',height: 30,width: 30,),
               title: Text(contest['event']),
-              subtitle: Text(contest['start']),
+              subtitle: Text(formattedStartDate),
+              trailing: SizedBox(
+                height: 40,
+                width: 40,
+                child: Lottie.asset('assets/CodingPlatformsIcons/right.json'),
+              ),
               onTap: () async{
                 _launchContestUrl(contest['href']);
             },

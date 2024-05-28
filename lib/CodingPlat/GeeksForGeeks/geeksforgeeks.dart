@@ -3,6 +3,7 @@ import 'package:codequest/CodingPlat/GeeksForGeeks/upcomming.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -54,9 +55,9 @@ class _GeeksForGeeksState extends State<GeeksForGeeks> {
     return LiquidPullToRefresh(
       onRefresh: _handleRefresh,
       color: Color(0xff171d28),
-      height: 800,
+      height: 100,
       animSpeedFactor: 10,
-      showChildOpacityTransition: true,
+      showChildOpacityTransition: false,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xff171d28),
@@ -95,10 +96,18 @@ class _GeeksForGeeksState extends State<GeeksForGeeks> {
           itemCount: contests.length,
           itemBuilder: (context, index) {
             final contest = contests[index];
+            DateTime utcDate = DateTime.parse(contest['start']);
+            DateTime istDate = utcDate.add(Duration(hours: 5, minutes: 30));
+            String formattedStartDate = DateFormat('dd-MM-yyyy – hh:mm a').format(istDate);
             return ListTile(
               leading : Image.asset('assets/CodingPlatformsIcons/img_6.png',height: 30,width: 30,),
               title: Text(contest['event']),
-              subtitle: Text(contest['start']),
+              subtitle: Text(formattedStartDate),
+              trailing:SizedBox(
+                height: 20,
+                width: 20,
+                child: Lottie.asset('assets/CodingPlatformsIcons/right.json'),
+              ),
               onTap: () async{
                 _launchContestUrl(contest['href']);
               },

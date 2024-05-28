@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../BeginnerProblem.dart';
+import '../Drawer.dart';
 import 'HomePageContainer.dart';
 import 'LstConatiner.dart';
 import 'package:codequest/Roadmap.dart';
@@ -19,8 +20,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Color startColor = Color(0xffFFC3A6);
-  Color endColor = Colors.purple.shade200;
+
 
   Map<String, Widget> platformScreens = {
     'LeetCode': Leetcode(),
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    // Handle onTap action if needed
+                      Navigator.pushNamed(context, 'Drawer');
                   },
                   child: Icon(
                     Icons.account_circle,
@@ -77,17 +77,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                Spacer(), // Added Spacer widget to push the drawer icon to the right
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, 'Drawer');
-                  },
-                  child: Icon(
-                    Icons.menu, // Replace 'Icons.menu' with the appropriate drawer icon
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                ),
+                Spacer(),
               ],
             ),
             SizedBox(height: 20),

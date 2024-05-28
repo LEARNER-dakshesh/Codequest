@@ -3,17 +3,18 @@ import 'package:codequest/CodingPlat/Leetcode/past_contest.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:codequest/CodingPlat/Leetcode/upcomming.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart'; // Import LiquidPullToRefresh
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-
-Future<void>_handleRefresh() async{
+Future<void> _handleRefresh() async {
   return await Future.delayed(Duration(seconds: 2));
 }
+
 class Leetcode extends StatefulWidget {
   const Leetcode({Key? key}) : super(key: key);
 
@@ -23,6 +24,7 @@ class Leetcode extends StatefulWidget {
 
 class _LeetcodeState extends State<Leetcode> {
   String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
   Future<void> fetchContests() async {
     String url =
         'https://clist.by/api/v4/contest/?limit=15&host=leetcode.com&end__lt=$formattedDate&order_by=-end';
@@ -58,7 +60,7 @@ class _LeetcodeState extends State<Leetcode> {
     return LiquidPullToRefresh(
       onRefresh: _handleRefresh,
       color: Color(0xff171d28),
-      height: 800,
+      height: 100,
       animSpeedFactor: 10,
       showChildOpacityTransition: false,
       child: Scaffold(
@@ -96,26 +98,37 @@ class _LeetcodeState extends State<Leetcode> {
         ),
         body: contests.isEmpty
             ? Center(
-          child: CircularProgressIndicator(color:Color(0xff171d28)),
+          child: CircularProgressIndicator(color: Color(0xff171d28)),
         )
             : ListView.builder(
-            itemCount: contests.length,
-            itemBuilder: (context, index) {
-              final contest = contests[index];
-              print(contest['event']);
-              return ListTile(
-                leading: Image.asset(
-                  'assets/CodingPlatformsIcons/img.png',
-                  height: 30,
-                  width: 30,
-                ),
-                title: Text(contest['event']),
-                subtitle: Text(contest['start']),
-                onTap: () async {
-                  _launchContestUrl(contest['href']);
-                },
-              );
-            }),
+          itemCount: contests.length,
+          itemBuilder: (context, index) {
+            final contest = contests[index];
+            print(contest['event']);
+            DateTime startDate = DateTime.parse(contest['start']);
+            DateTime utcDate = DateTime.parse(contest['start']);
+            DateTime istDate = utcDate.add(Duration(hours: 5, minutes: 30));
+            String formattedStartDate = DateFormat('dd-MM-yyyy – hh:mm a').format(istDate);
+
+            return ListTile(
+              leading: Image.asset(
+                'assets/CodingPlatformsIcons/img.png',
+                height: 30,
+                width: 30,
+              ),
+              title: Text(contest['event']),
+              subtitle: Text(formattedStartDate),
+              trailing: SizedBox(
+                height: 40,
+                width: 40,
+                child: Lottie.asset('assets/CodingPlatformsIcons/right.json'),
+              ),
+              onTap: () async {
+                _launchContestUrl(contest['href']);
+              },
+            );
+          },
+        ),
         bottomNavigationBar: Container(
           color: Color(0xff171d28),
           child: Padding(
@@ -127,12 +140,10 @@ class _LeetcodeState extends State<Leetcode> {
               hoverColor: Color(0xff202e3f),
               haptic: true,
               tabBorderRadius: 15,
-              tabActiveBorder:
-              Border.all(color: Color(0xff202e3f), width: 1),
+              tabActiveBorder: Border.all(color: Color(0xff202e3f), width: 1),
               tabBorder: Border.all(color: Colors.grey, width: 1),
               tabShadow: [
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.5), blurRadius: 8)
+                BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 8)
               ],
               curve: Curves.easeOutExpo,
               duration: Duration(milliseconds: 900),

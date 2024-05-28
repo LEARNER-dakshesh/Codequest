@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
@@ -95,11 +96,18 @@ class _CodechefnxtState extends State<Codechefnxt> {
             itemBuilder: (context,index){
             final contest=upcomming[index];
             print(contest['event']);
-            String formattedDate1 = DateFormat('dd-MM-yyyy HH:mm').format(DateTime.parse(contest['start']));
+            DateTime utcDate = DateTime.parse(contest['start']);
+            DateTime istDate = utcDate.add(Duration(hours: 5, minutes: 30));
+            String formattedStartDate = DateFormat('dd-MM-yyyy – hh:mm a').format(istDate);
             return ListTile(
               leading : Image.asset('assets/CodingPlatformsIcons/img_1.png',height: 30,width: 30,),
               title: Text(contest['event']),
-              subtitle: Text(formattedDate1),
+              subtitle: Text(formattedStartDate),
+              trailing:SizedBox(
+                height: 20,
+                width: 20,
+                child: Lottie.asset('assets/CodingPlatformsIcons/right.json'),
+              ),
               onTap: () async{
                 _launchContestUrl(contest['href']);
               },

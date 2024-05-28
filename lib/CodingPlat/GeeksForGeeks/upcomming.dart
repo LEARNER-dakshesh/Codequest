@@ -95,14 +95,21 @@ class _gfgnxtState extends State<gfgnxt> {
           itemCount: upcomming.length,
           itemBuilder: (context, index) {
             final contest = upcomming[index];
+            DateTime utcDate = DateTime.parse(contest['start']);
+            DateTime istDate = utcDate.add(Duration(hours: 5, minutes: 30));
+            String formattedStartDate = DateFormat('dd-MM-yyyy – hh:mm a').format(istDate);
             return ListTile(
               leading : Image.asset('assets/CodingPlatformsIcons/img_6.png',height: 30,width: 30,),
               title: Text(contest['event']),
-              subtitle: Text(contest['start']),
+              subtitle: Text(formattedStartDate),
+              trailing:SizedBox(
+                height: 20,
+                width: 20,
+                child: Lottie.asset('assets/CodingPlatformsIcons/right.json'),
+              ),
               onTap: () async{
                 _launchContestUrl(contest['href']);
               },
-              trailing: Lottie.asset('assets/go_ahead.json',height: 120,width: 40),
             );
           },
         ),

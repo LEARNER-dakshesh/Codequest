@@ -15,7 +15,7 @@ class _SliderMenuState extends State<SliderMenu> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        width: 288,
+        width: 320,
         height: double.infinity,
         color: Color(0xFF161c28),
         child: SafeArea(

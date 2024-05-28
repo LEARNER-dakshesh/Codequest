@@ -2,6 +2,7 @@ import 'package:codequest/CodingPlat/CodeForces/codeforces.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
@@ -53,9 +54,9 @@ class _cfnxtState extends State<cfnxt> {
     return LiquidPullToRefresh(
       onRefresh: _handleRefresh,
       color: Color(0xff171d28),
-      height: 800,
+      height: 100,
       animSpeedFactor: 10,
-      showChildOpacityTransition: true,
+      showChildOpacityTransition: false,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xff171d28),
@@ -94,11 +95,18 @@ class _cfnxtState extends State<cfnxt> {
           itemCount: upcomming.length,
           itemBuilder: (context, index) {
             final contest = upcomming[index];
-            // Display only the contest name
+            DateTime utcDate = DateTime.parse(contest['start']);
+            DateTime istDate = utcDate.add(Duration(hours: 5, minutes: 30));
+            String formattedStartDate = DateFormat('dd-MM-yyyy – hh:mm a').format(istDate);
             return ListTile(
               leading : Image.asset('assets/CodingPlatformsIcons/img_5.png',height: 30,width: 30,),
               title: Text(contest['event']),
-              subtitle: Text(contest['start']),
+              subtitle: Text(formattedStartDate),
+              trailing: SizedBox(
+                height: 20,
+                width: 20,
+                child: Lottie.asset('assets/CodingPlatformsIcons/right.json'),
+              ),
               onTap: () async{
                 _launchContestUrl(contest['href']);
               },
