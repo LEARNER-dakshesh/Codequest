@@ -2,10 +2,12 @@ import 'package:codequest/Authentication%20Page/otp_screen.dart';
 import 'package:codequest/HomePage/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:email_otp/email_otp.dart';
-import '../Animation/FadeAnimation.dart'; // Assuming you have the FadeAnimation widget
+import '../Animation/FadeAnimation.dart';
 import 'package:http/http.dart' as http;
 import 'package:email_auth/email_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Auth extends StatefulWidget {
   const Auth({Key? key}) : super(key: key);
@@ -22,6 +24,41 @@ class _AuthState extends State<Auth> {
   final TextEditingController _otpController2 = TextEditingController();
   final TextEditingController _otpController3 = TextEditingController();
   final TextEditingController _otpController4 = TextEditingController();
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  // Sign in with Google
+  Future<User?> _signInWithGoogle() async {
+    try {
+      // Trigger the Google sign-in flow
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+
+      if (googleUser == null) {
+        // User canceled the sign-in
+        return null;
+      }
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+      final OAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final UserCredential userCredential = await _auth.signInWithCredential(credential);
+
+      return userCredential.user;
+    } catch (e) {
+      print("Error signing in with Google: $e");
+      return null;
+    }
+  }
+
+  // Sign out from Google
+  Future<void> _signOut() async {
+    await _googleSignIn.signOut();
+    await _auth.signOut();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -346,8 +383,20 @@ class _AuthState extends State<Auth> {
                                        color:Colors.black
                                       ),
                                       child: ElevatedButton(
-                                        onPressed: () {
-                                          // Add your button click logic here
+                                        onPressed: () async {
+                                          User? user = await _signInWithGoogle();
+                                          if (user != null) {
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => HomePage(),
+                                              ),
+                                            );
+                                          } else {
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              SnackBar(content: Text("Google Sign-In failed")),
+                                            );
+                                          }
                                         },
                                         style: ElevatedButton.styleFrom(
                                           shape: RoundedRectangleBorder(

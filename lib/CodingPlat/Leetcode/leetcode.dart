@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:codequest/CodingPlat/Leetcode/past_contest.dart';
-import 'package:timezone/timezone.dart' as tz;
 import 'package:codequest/CodingPlat/Leetcode/upcomming.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
@@ -34,7 +32,6 @@ class _LeetcodeState extends State<Leetcode> {
       });
 
       if (response.statusCode == 200) {
-        print("received");
         final data = json.decode(response.body);
         setState(() {
           contests = data['objects'];
@@ -64,6 +61,7 @@ class _LeetcodeState extends State<Leetcode> {
       animSpeedFactor: 10,
       showChildOpacityTransition: false,
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Color(0xff171d28),
           title: Row(
@@ -78,82 +76,92 @@ class _LeetcodeState extends State<Leetcode> {
               Text(
                 'Leetcode',
                 style: GoogleFonts.poppins(
-                  textStyle: TextStyle(fontSize: 20, color: Colors.white),
+                  textStyle: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w600),
                 ),
               ),
-              SizedBox(
-                width: 52,
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.alarm,
-                  size: 25,
-                  color: Colors.white,
-                ),
-              ),
+              SizedBox(width: 52),
             ],
           ),
           iconTheme: IconThemeData(color: Colors.white),
         ),
         body: contests.isEmpty
-            ? Center(
-          child: CircularProgressIndicator(color: Color(0xff171d28)),
-        )
+            ? Center(child: CircularProgressIndicator(color: Color(0xff171d28)))
             : ListView.builder(
           itemCount: contests.length,
           itemBuilder: (context, index) {
             final contest = contests[index];
-            print(contest['event']);
             DateTime startDate = DateTime.parse(contest['start']);
             DateTime utcDate = DateTime.parse(contest['start']);
             DateTime istDate = utcDate.add(Duration(hours: 5, minutes: 30));
             String formattedStartDate = DateFormat('dd-MM-yyyy – hh:mm a').format(istDate);
 
-            return ListTile(
-              leading: Image.asset(
-                'assets/CodingPlatformsIcons/img.png',
-                height: 30,
-                width: 30,
+            return Container(
+              margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 4,
+                    offset: Offset(0, 2),
+                  ),
+                ],
               ),
-              title: Text(contest['event']),
-              subtitle: Text(formattedStartDate),
-              trailing: SizedBox(
-                height: 40,
-                width: 40,
-                child: Lottie.asset('assets/CodingPlatformsIcons/right.json'),
+              child: ListTile(
+                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                leading: Image.asset(
+                  'assets/CodingPlatformsIcons/img.png',
+                  height: 30,
+                  width: 30,
+                ),
+                title: Text(
+                  contest['event'],
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                  ),
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 4),
+                    Text(
+                      formattedStartDate,
+                      style: GoogleFonts.poppins(
+                        color: Colors.grey[600],
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+                trailing: SizedBox(
+                  height: 40,
+                  width: 40,
+                  child: Lottie.asset('assets/CodingPlatformsIcons/right.json'),
+                ),
+                onTap: () async {
+                  _launchContestUrl(contest['href']);
+                },
               ),
-              onTap: () async {
-                _launchContestUrl(contest['href']);
-              },
             );
           },
         ),
         bottomNavigationBar: Container(
           color: Color(0xff171d28),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
+            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
             child: GNav(
               backgroundColor: Color(0xff171d28),
               color: Colors.white,
-              rippleColor: Color(0xff202e3f),
-              hoverColor: Color(0xff202e3f),
-              haptic: true,
-              tabBorderRadius: 15,
-              tabActiveBorder: Border.all(color: Color(0xff202e3f), width: 1),
-              tabBorder: Border.all(color: Colors.grey, width: 1),
-              tabShadow: [
-                BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 8)
-              ],
-              curve: Curves.easeOutExpo,
-              duration: Duration(milliseconds: 900),
               activeColor: Colors.white,
               tabBackgroundColor: Color(0xff202e3f),
               gap: 8,
-              padding: EdgeInsets.all(5),
+              padding: EdgeInsets.all(16),
               tabs: [
                 GButton(
-                  icon: Icons.skip_previous_outlined,
+                  icon: Icons.history,
                   onPressed: () {
                     fetchContests();
                   },
@@ -161,17 +169,21 @@ class _LeetcodeState extends State<Leetcode> {
                   text: 'Past Contest',
                 ),
                 GButton(
-                  icon: Icons.next_week_outlined,
+                  icon: Icons.upcoming,
                   onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => lcnxt()));
+                            builder: (context) => LeetCodeContests()));
                   },
                   iconSize: 30,
                   text: 'Upcoming',
                 ),
               ],
+              selectedIndex: 0,
+              onTabChange: (index) {
+                // Handle tab changes
+              },
             ),
           ),
         ),

@@ -3,7 +3,8 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  rive_common
+  firebase_auth
+  firebase_core
   url_launcher_windows
 )
 

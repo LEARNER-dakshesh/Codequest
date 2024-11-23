@@ -12,6 +12,8 @@ import 'package:codequest/CodingPlat/CodeForces/codeforces.dart';
 import 'package:codequest/CodingPlat/Codechef/codechef.dart';
 import 'package:codequest/data/CodingPlatformsdata.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -20,6 +22,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  User? _user; // To store the current user
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
+  }
+
+  // Fetch the current user's details
+  void _loadUser() {
+    setState(() {
+      _user = FirebaseAuth.instance.currentUser;
+    });
+  }
 
 
   Map<String, Widget> platformScreens = {
@@ -68,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Hi Dakshesh 👋',
+                      'Hi ${_user?.displayName ?? "Guest User"} 👋',
                       style: GoogleFonts.poppins(textStyle: TextStyle(color: Colors.white, fontSize: 20)),
                     ),
                     Text(
