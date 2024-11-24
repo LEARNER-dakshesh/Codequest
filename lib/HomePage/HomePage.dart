@@ -66,7 +66,6 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Color(0xff171d28),
         title: Row(
             children: [
-              SizedBox(width: 15), // Add spacing between the icon and the text
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -90,13 +89,14 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
+        iconTheme: IconThemeData(color: Colors.white),
         ),
       drawer: Drawer(
         backgroundColor: Color(0xFF161c28),
         child: SliderMenu(),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 0),
+        padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
