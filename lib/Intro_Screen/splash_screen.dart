@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -27,6 +28,38 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
         curve: Curves.easeInOut,
       ),
     );
+
+    // Check if the user is logging in for the first time
+    _checkFirstTimeUser();
+  }
+
+  // Function to check if it's the user's first time
+  Future<void> _checkFirstTimeUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
+
+    // Navigate after the splash screen animation delay
+    Future.delayed(Duration(seconds: 3), () {
+      if (isFirstTime) {
+        // Navigate to Auth page
+        Navigator.pushReplacementNamed(context, 'Auth');
+      } else {
+        // Navigate directly to Home page
+        Navigator.pushReplacementNamed(context, 'Home');
+      }
+    });
+  }
+
+  // Function to mark the user as no longer a first-time user
+  void _onLoginSuccess() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Set `isFirstTime` to false after successful login
+    await prefs.setBool('isFirstTime', false);
+
+    // Navigate to Home page
+    Navigator.pushReplacementNamed(context, 'Home');
   }
 
   @override
@@ -36,7 +69,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
-            end: Alignment.bottomRight, // Specify end alignment for smoother gradient
+            end: Alignment.bottomRight,
             colors: [Colors.black, Colors.white, Colors.black38],
           ),
         ),
@@ -75,17 +108,21 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
                 children: [
                   Text(
                     "Discover The Best Coding Booster Partner🌋",
-                    style: GoogleFonts.poppins(textStyle:TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    )),
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        )),
                   ),
                   SizedBox(height: 15),
                   Text(
                     "Deep Dive into the heart of Problem Solving",
-                    style: GoogleFonts.poppins(textStyle:TextStyle(fontSize: 14, color: Colors.grey.shade600),
-                  )),
+                    style: GoogleFonts.poppins(
+                      textStyle:
+                      TextStyle(fontSize: 14, color: Colors.grey.shade600),
+                    ),
+                  ),
                   SizedBox(height: 20),
                   Align(
                     alignment: Alignment.bottomRight,
@@ -94,9 +131,11 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
                         Navigator.pushNamed(context, 'Auth');
                       },
                       child: Text(
-                      "Explore Now 🚀",
-                      style: GoogleFonts.poppins(textStyle: TextStyle(color: Colors.black, fontSize: 16)),
-                    ),
+                        "Explore Now 🚀",
+                        style: GoogleFonts.poppins(
+                            textStyle:
+                            TextStyle(color: Colors.black, fontSize: 16)),
+                      ),
                     ),
                   ),
                 ],

@@ -38,7 +38,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-
   Map<String, Widget> platformScreens = {
     'LeetCode': Leetcode(),
     'CodeChef': Codechef(),
@@ -63,66 +62,66 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff171d28),
+      appBar: AppBar(
+        backgroundColor: Color(0xff171d28),
+        title: Row(
+            children: [
+              SizedBox(width: 15), // Add spacing between the icon and the text
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Hi ${_user?.displayName ?? "Guest User"} 👋',
+                    style: GoogleFonts.poppins(
+                      textStyle: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  ),
+                  Text(
+                    getGreeting() + " !!",
+                    style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      drawer: Drawer(
+        backgroundColor: Color(0xFF161c28),
+        child: SliderMenu(),
+      ),
       body: Padding(
         padding: const EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                      Navigator.pushNamed(context, 'Drawer');
-                  },
-                  child: Icon(
-                    Icons.account_circle,
-                    color: Colors.white,
-                    size: 50,
-                  ),
-                ),
-                SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Hi ${_user?.displayName ?? "Guest User"} 👋',
-                      style: GoogleFonts.poppins(textStyle: TextStyle(color: Colors.white, fontSize: 20)),
-                    ),
-                    Text(
-                      getGreeting() +" !!",
-                      style: GoogleFonts.poppins(textStyle: TextStyle(color: Colors.white70, fontSize: 15, fontWeight: FontWeight.bold)),
-                    ),
-                  ],
-                ),
-                Spacer(),
-              ],
-            ),
-            SizedBox(height: 20),
             SingleChildScrollView(
               child: Row(
                 children: [
-                  Expanded(
-                      child: SizedBox()) ,
+                  Expanded(child: SizedBox()),
                   GestureDetector(
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => BeginnerProblem())),
-                      child: CardContainer(text: "Beginner Problems", icon: Icon(Icons.star)),
-                      ),
-                Expanded(
-                    child: SizedBox()) ,
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => BeginnerProblem())),
+                    child: CardContainer(text: "Beginner Problems", icon: Icon(Icons.star)),
+                  ),
+                  Expanded(child: SizedBox()),
                   GestureDetector(
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Roadmap())),
-                    child: CardContainer(text:"DSA RoadMap", icon: Icon(Icons.alt_route_rounded)),
+                    child: CardContainer(text: "DSA RoadMap", icon: Icon(Icons.alt_route_rounded)),
                   ),
-                  Expanded(
-                      child: SizedBox()) ,
+                  Expanded(child: SizedBox()),
                 ],
               ),
             ),
             SizedBox(height: 20),
             Text(
               'Contests',
-              style: GoogleFonts.poppins(textStyle:TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),
-            )),
+              style: GoogleFonts.poppins(textStyle: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold)),
+            ),
             Expanded(
               child: ListView.builder(
                 shrinkWrap: true,
@@ -132,7 +131,10 @@ class _HomePageState extends State<HomePage> {
                   return GestureDetector(
                     onTap: () {
                       String platformName = CodingPlatformdata[index].name;
-                      Navigator.push( context,MaterialPageRoute(builder: (context) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
                             if (platformScreens.containsKey(platformName)) {
                               return platformScreens[platformName]!;
                             } else {
@@ -146,7 +148,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       );
                     },
-                    child:ListContainer(
+                    child: ListContainer(
                       text: CodingPlatformdata[index].name, // Pass the text content directly
                       textStyle: GoogleFonts.poppins( // Apply GoogleFonts.poppins style here
                         textStyle: TextStyle(
