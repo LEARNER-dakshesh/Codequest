@@ -293,7 +293,7 @@ class _LeetCodeContestsState extends State<LeetCodeContests> {
           children: [
             IconButton(
               icon: Icon(
-                isAlarmSet ? Icons.alarm_on : Icons.alarm_off,
+                isAlarmSet ?  Icons.notifications_active : Icons.notifications_none,
                 color: isAlarmSet ? Color(0xff171d28) : Colors.grey,
                 size: 28,
               ),
@@ -381,14 +381,23 @@ class _LeetCodeContestsState extends State<LeetCodeContests> {
       bottomNavigationBar: Container(
         color: Color(0xff171d28),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
+          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
           child: GNav(
             backgroundColor: Color(0xff171d28),
             color: Colors.white,
+            rippleColor: Color(0xff202e3f),
+            hoverColor: Color(0xff202e3f),
+            haptic: true,
+            tabBorderRadius: 15,
+            tabActiveBorder: Border.all(color: Color(0xff202e3f), width: 1),
+            tabBorder: Border.all(color: Colors.grey, width: 1),
+            tabShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 8)],
+            curve: Curves.easeOutExpo,
+            duration: Duration(milliseconds: 900),
             activeColor: Colors.white,
             tabBackgroundColor: Color(0xff202e3f),
             gap: 8,
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(5),
             tabs: [
               GButton(
                 icon: Icons.history,

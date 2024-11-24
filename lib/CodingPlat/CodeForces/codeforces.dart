@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:lottie/lottie.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
@@ -55,6 +56,7 @@ class _CodeforcesState extends State<Codeforces> {
       animSpeedFactor: 10,
       showChildOpacityTransition: false,
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Color(0xff171d28),
           title: Row(
@@ -73,14 +75,6 @@ class _CodeforcesState extends State<Codeforces> {
               SizedBox(
                 width: 41,
               ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.alarm,
-                  size: 25,
-                  color: Colors.white,
-                ),
-              ),
             ],
           ),
           iconTheme: IconThemeData(color: Colors.white),
@@ -95,9 +89,28 @@ class _CodeforcesState extends State<Codeforces> {
             DateTime utcDate = DateTime.parse(contest['start']);
             DateTime istDate = utcDate.add(Duration(hours: 5, minutes: 30));
             String formattedStartDate = DateFormat('dd-MM-yyyy – hh:mm a').format(istDate);
-            return ListTile(
+            return Container(
+              margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 4,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+            child: ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               leading : Image.asset('assets/CodingPlatformsIcons/img_5.png',height: 30,width: 30,),
-              title: Text(contest['event']),
+              title: Text(contest['event'],
+                style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+              ),),
               subtitle: Text(formattedStartDate),
               trailing: SizedBox(
                 height: 20,
@@ -107,6 +120,7 @@ class _CodeforcesState extends State<Codeforces> {
               onTap: () async{
                 _launchContestUrl(contest['href']);
               },
+            ),
             );
           },
         ),
@@ -132,7 +146,7 @@ class _CodeforcesState extends State<Codeforces> {
               padding: EdgeInsets.all(5),
               tabs: [
                 GButton(
-                  icon: Icons.skip_previous_outlined,
+                  icon: Icons.history,
                   iconSize: 30,
                   text: 'Past Contest',
                   onPressed: (){
@@ -140,7 +154,7 @@ class _CodeforcesState extends State<Codeforces> {
                   },
                 ),
                 GButton(
-                  icon: Icons.next_week_outlined,
+                  icon: Icons.upcoming,
                   iconSize: 30,
                   text: 'Upcommimg ',
                   onPressed: (){
@@ -148,6 +162,10 @@ class _CodeforcesState extends State<Codeforces> {
                   },
                 ),
               ],
+              selectedIndex: 0,
+              onTabChange: (index) {
+                // Handle tab changes
+              },
             ),
           ),
         ),
