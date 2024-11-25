@@ -1,8 +1,12 @@
+import 'package:codequest/Authentication%20Page/auth_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Splash extends StatefulWidget {
+  static const String Home = 'otp_screen';
+  static const String Auth = 'Auth';
+
   const Splash({Key? key}) : super(key: key);
 
   @override
@@ -17,11 +21,13 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
 
+    // Initialize the animation controller
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 3),
+      duration: const Duration(seconds: 3),
     )..repeat(reverse: true);
 
+    // Create the animation
     _animation = Tween<double>(begin: -10.0, end: 10.0).animate(
       CurvedAnimation(
         parent: _animationController,
@@ -29,44 +35,33 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
       ),
     );
 
-    // Check if the user is logging in for the first time
+    // Check if the user is opening the app for the first time
     _checkFirstTimeUser();
   }
 
-  // Function to check if it's the user's first time
   Future<void> _checkFirstTimeUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
+
+    // Get the value of 'isFirstTime' or default to true
     bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
 
-    // Navigate after the splash screen animation delay
-    Future.delayed(Duration(seconds: 3), () {
+    // Delay for 3 seconds and navigate
+    Future.delayed(const Duration(seconds: 1), () {
       if (isFirstTime) {
-        // Navigate to Auth page
-        Navigator.pushReplacementNamed(context, 'Auth');
+        Navigator.pushReplacementNamed(context, Splash.Auth);
+         prefs.setBool('isFirstTime', false);
       } else {
-        // Navigate directly to Home page
-        Navigator.pushReplacementNamed(context, 'Home');
+        Navigator.pushReplacementNamed(context, Splash.Home);
       }
     });
-  }
-
-  // Function to mark the user as no longer a first-time user
-  void _onLoginSuccess() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    // Set `isFirstTime` to false after successful login
-    await prefs.setBool('isFirstTime', false);
-
-    // Navigate to Home page
-    Navigator.pushReplacementNamed(context, 'Home');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -76,7 +71,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             AnimatedBuilder(
               animation: _animationController,
               builder: (context, child) {
@@ -95,8 +90,8 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
             ),
             Container(
               width: double.infinity,
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.all(20),
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(60),
@@ -109,32 +104,38 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
                   Text(
                     "Discover The Best Coding Booster Partner🌋",
                     style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        )),
+                      textStyle: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   Text(
                     "Deep Dive into the heart of Problem Solving",
                     style: GoogleFonts.poppins(
-                      textStyle:
-                      TextStyle(fontSize: 14, color: Colors.grey.shade600),
+                      textStyle: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey.shade600,
+                      ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, 'Auth');
+                        Navigator.pushNamed(context, Splash.Auth);
                       },
                       child: Text(
                         "Explore Now 🚀",
                         style: GoogleFonts.poppins(
-                            textStyle:
-                            TextStyle(color: Colors.black, fontSize: 16)),
+                          textStyle: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                          ),
+                        ),
                       ),
                     ),
                   ),

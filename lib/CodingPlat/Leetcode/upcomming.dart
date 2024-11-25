@@ -43,7 +43,6 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (NotificationResponse response) {
-        // Handle notification tap
         if (response.payload != null) {
           _launchContestUrl(response.payload!);
         }

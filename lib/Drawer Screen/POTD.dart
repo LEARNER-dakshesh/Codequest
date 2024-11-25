@@ -237,8 +237,7 @@ class _POTDChallengeScreenState extends State<POTDChallengeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFF161c28),
       appBar: AppBar(
         backgroundColor: Color(0xFF161c28),
         title: Text('Problem of the Day',
