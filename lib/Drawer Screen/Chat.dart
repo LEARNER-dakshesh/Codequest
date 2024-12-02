@@ -13,7 +13,6 @@ class _ChatRoomState extends State<ChatRoom> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Stream for messages
   Stream<QuerySnapshot> _getMessages() {
     return _firestore
         .collection('chat_rooms')
@@ -23,7 +22,6 @@ class _ChatRoomState extends State<ChatRoom> {
         .snapshots();
   }
 
-  // Send message function
   void _sendMessage() async {
     if (_messageController.text.trim().isEmpty) return;
     User? _user = FirebaseAuth.instance.currentUser;
@@ -63,14 +61,13 @@ class _ChatRoomState extends State<ChatRoom> {
             ),
           ),
         ),
-        backgroundColor: Color(0xff171d28), // AppBar color
+        backgroundColor: Color(0xff171d28),
         centerTitle: true,
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SafeArea(
         child: Column(
           children: [
-            // Messages list
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: _getMessages(),
@@ -84,7 +81,7 @@ class _ChatRoomState extends State<ChatRoom> {
                   }
 
                   if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return Center(child: Text('No messages yet'));
+                    return Center(child: Text('No messages yet',));
                   }
 
                   return ListView.builder(
@@ -149,7 +146,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                 decoration: InputDecoration(
                                   hintText: 'Type a message...',
                                   hintStyle: TextStyle(color: Colors.grey[500]),
-                                  border: InputBorder.none, // No border inside TextField
+                                  border: InputBorder.none,
                                   contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 20),
                                 ),
                                 style: TextStyle(color: Colors.black87),

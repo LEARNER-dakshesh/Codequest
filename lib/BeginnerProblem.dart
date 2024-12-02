@@ -12,6 +12,7 @@ class _BeginnerProblemState extends State<BeginnerProblem> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Color(0xff171d28),
         appBar: AppBar(
@@ -39,7 +40,7 @@ class _TapListState extends State<TapList> {
     'https://leetcode.com/tag/sorting/',
     'https://leetcode.com/tag/searching/',
     'https://leetcode.com/tag/linked-list/',
-    'https://leetcode.com/tag/two-pointer/',
+    'https://leetcode.com/problemset/?topicSlugs=two-pointers&page=1',
     'https://leetcode.com/tag/stack/'
   ];
 
@@ -74,11 +75,9 @@ class _TapListState extends State<TapList> {
   }
 
   void _launchWebsite(String url) async {
-    Uri uri=Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      throw 'Could not launch $url';
+    final Uri _url = Uri.parse(url);
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
     }
   }
 

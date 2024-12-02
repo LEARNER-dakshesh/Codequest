@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart' as parser;
 import 'package:url_launcher/url_launcher.dart';
-import 'package:html/parser.dart';  // This is the correct import
+import 'package:html/parser.dart';
 import 'dart:convert';
 
 

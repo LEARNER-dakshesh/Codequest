@@ -410,7 +410,7 @@ class _LeetCodeContestsState extends State<LeetCodeContests> {
               ),
               GButton(
                 icon: Icons.upcoming,
-                text: 'Upcoming',
+                text: 'Upcomming',
                 onPressed: () => fetchUpcomingContests(),
               ),
             ],
@@ -438,3 +438,4 @@ Future<void> _launchContestUrl(String urlString) async {
     print('Error launching URL: $e');
   }
 }
+
