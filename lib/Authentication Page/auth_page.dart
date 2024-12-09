@@ -8,8 +8,10 @@ import 'package:email_auth/email_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth extends StatefulWidget {
+
   const Auth({Key? key}) : super(key: key);
 
   @override
@@ -17,6 +19,36 @@ class Auth extends StatefulWidget {
 }
 
 class _AuthState extends State<Auth> {
+  bool isOTPPending = false;
+  String? pendingEmail;
+  @override
+  void initState() {
+    super.initState();
+    checkPendingVerification();
+  }
+
+  Future<void> checkPendingVerification() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isOTPPending = prefs.getBool('isOTPPending') ?? false;
+      pendingEmail = prefs.getString('pendingEmail');
+      if (pendingEmail != null) {
+        email.text = pendingEmail!;
+      }
+    });
+  }
+
+  Future<void> setPendingVerification(String email) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isOTPPending', true);
+    await prefs.setString('pendingEmail', email);
+  }
+
+  Future<void> clearPendingVerification() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isOTPPending', false);
+    await prefs.remove('pendingEmail');
+  }
   Color myColor = Color(0xffFFC3A6);
   EmailOTP myauth = EmailOTP();
   final TextEditingController email = TextEditingController();
@@ -28,14 +60,11 @@ class _AuthState extends State<Auth> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Sign in with Google
   Future<User?> _signInWithGoogle() async {
     try {
-      // Trigger the Google sign-in flow
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
       if (googleUser == null) {
-        // User canceled the sign-in
         return null;
       }
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
@@ -50,15 +79,14 @@ class _AuthState extends State<Auth> {
       return userCredential.user;
     } catch (e) {
       print("Error signing in with Google: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Google Sign-In failed: $e")),
+      );
       return null;
     }
   }
 
-  // Sign out from Google
-  Future<void> _signOut() async {
-    await _googleSignIn.signOut();
-    await _auth.signOut();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -156,14 +184,15 @@ class _AuthState extends State<Auth> {
                                           labelText: "Email",
                                           suffixIcon: IconButton(
                                             onPressed: () async {
-                                              myauth.setConfig(
-                                                appEmail: "codequestcn@gmail.com",
+                                              EmailOTP.config(
+                                                appEmail: "daksheshgupta4@gmail.com",
                                                 appName: "Email Otp",
-                                                userEmail: email.text,
                                                 otpLength: 4,
-                                                otpType: OTPType.digitsOnly,
+                                                otpType: OTPType.numeric,
                                               );
-                                              if (await myauth.sendOTP() == true) {
+
+                                              if (await EmailOTP.sendOTP(email: email.text) == true) {
+                                                await setPendingVerification(email.text);
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   const SnackBar(content: Text("OTP has been sent")),
@@ -175,7 +204,7 @@ class _AuthState extends State<Auth> {
                                                 );
                                               }
                                             },
-                                            icon: Icon(Icons.send), // Use the send icon or replace it with the desired icon
+                                            icon: Icon(Icons.send),
                                           ),
                                           hintStyle: TextStyle(color: Colors.grey),
                                           border: InputBorder.none,
@@ -317,15 +346,16 @@ class _AuthState extends State<Auth> {
                                   color: Colors.blue,
                                 ),
                                 child: ElevatedButton(
-                                  onPressed: () {
-                                    if (myauth.verifyOTP(otp: _otpController1.text +
+                                  onPressed: () async{
+                                    if (EmailOTP.verifyOTP(otp: _otpController1.text +
                                         _otpController2.text +
                                         _otpController3.text +
                                         _otpController4.text) == true) {
+
+                                      await clearPendingVerification();
                                       ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(content: Text("OTP is verified")),
                                       );
-                                      // Navigate to the next screen or perform the desired action
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -341,7 +371,6 @@ class _AuthState extends State<Auth> {
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
-
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(50),
                                     ), backgroundColor: Colors.black,

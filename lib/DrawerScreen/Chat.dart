@@ -52,7 +52,7 @@ class _ChatRoomState extends State<ChatRoom> {
       backgroundColor: Color(0xFF161c28),
       appBar: AppBar(
         title: Text(
-          'Chat Room',
+          'Discussion Room',
           style: GoogleFonts.poppins(
             textStyle: TextStyle(
               fontSize: 22,

@@ -3,15 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart' as parser;
-import 'package:url_launcher/url_launcher.dart';
-import 'package:html/parser.dart';  // This is the correct import
-import 'dart:convert';
 
-import 'Drawer Screen/Chat.dart';
-import 'Drawer Screen/POTD.dart';
-
+import 'DrawerScreen/AccountStore.dart';
+import 'DrawerScreen/Chat.dart';
+import 'DrawerScreen/POTD.dart';
 
 class SliderMenu extends StatefulWidget {
   const SliderMenu({Key? key}) : super(key: key);
@@ -21,7 +16,7 @@ class SliderMenu extends StatefulWidget {
 }
 
 class _SliderMenuState extends State<SliderMenu> {
-  User? _user; // To store the current user
+  User? _user;
 
   @override
   void initState() {
@@ -29,27 +24,36 @@ class _SliderMenuState extends State<SliderMenu> {
     _loadUser();
   }
 
-  // Fetch the current user's details
   void _loadUser() {
     setState(() {
       _user = FirebaseAuth.instance.currentUser;
     });
   }
 
-  // Method to navigate to the respective screen
+  bool get _isGuestUser {
+    return _user == null;
+  }
+
   void _navigateToScreen(String screenName) {
     switch (screenName) {
       case 'Home':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
         break;
       case 'POTD Challenge':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => POTDChallengeScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => POTDChallengeScreen()));
         break;
       case 'Compare Profiles':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => CompareProfilesScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => CompareProfilesScreen()));
         break;
       case 'Chat Room':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ChatRoom()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ChatRoom()));
+        break;
+      case 'Settings':
+        Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
         break;
       default:
         break;
@@ -67,7 +71,7 @@ class _SliderMenuState extends State<SliderMenu> {
           child: Column(
             children: [
               ListTile(
-                contentPadding: EdgeInsets.fromLTRB(20,40,0,0),
+                contentPadding: EdgeInsets.fromLTRB(20, 40, 0, 0),
                 leading: CircleAvatar(
                   backgroundColor: Colors.white,
                   child: Icon(CupertinoIcons.person),
@@ -100,11 +104,10 @@ class _SliderMenuState extends State<SliderMenu> {
                   height: 40,
                 ),
               ),
-              // Home ListTile
               GestureDetector(
                 onTap: () => _navigateToScreen('Home'),
                 child: Padding(
-                  padding:EdgeInsets.only(left: 10.0,top: 1.0),
+                  padding: EdgeInsets.only(left: 10.0, top: 1.0),
                   child: Row(
                     children: [
                       SizedBox(
@@ -129,11 +132,10 @@ class _SliderMenuState extends State<SliderMenu> {
                   ),
                 ),
               ),
-              // POTD Challenge ListTile
               GestureDetector(
                 onTap: () => _navigateToScreen('POTD Challenge'),
                 child: Padding(
-                  padding:EdgeInsets.only(left: 10.0,top: 1.0),
+                  padding: EdgeInsets.only(left: 10.0, top: 1.0),
                   child: Row(
                     children: [
                       SizedBox(
@@ -158,11 +160,10 @@ class _SliderMenuState extends State<SliderMenu> {
                   ),
                 ),
               ),
-              // Compare Profiles ListTile
               GestureDetector(
                 onTap: () => _navigateToScreen('Compare Profiles'),
                 child: Padding(
-                  padding:EdgeInsets.only(left: 10.0,top: 1.0),
+                  padding: EdgeInsets.only(left: 10.0, top: 1.0),
                   child: Row(
                     children: [
                       SizedBox(
@@ -187,27 +188,57 @@ class _SliderMenuState extends State<SliderMenu> {
                   ),
                 ),
               ),
-              // Chat Room ListTile
+              if (!_isGuestUser)
+                GestureDetector(
+                  onTap: () => _navigateToScreen('Chat Room'),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10.0, top: 1.0),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          height: 90,
+                          width: 70,
+                          child: Lottie.asset(
+                            'assets/chat_room_ani.json',
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          'Discussion Room',
+                          style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              Spacer(),
               GestureDetector(
-                onTap: () => _navigateToScreen('Chat Room'),
-                child: Padding(
-                  padding:EdgeInsets.only(left: 10.0,top: 1.0),
+                onTap: () {
+                  _navigateToScreen('Settings');
+                },
+                child: Container(
+                  color: Colors.black,
+                  padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                   child: Row(
                     children: [
-                      SizedBox(
-                        height: 90,
-                        width: 70,
-                        child: Lottie.asset(
-                          'assets/chat_room_ani.json',
-                        ),
+                      const Icon(
+                        CupertinoIcons.settings,
+                        color: Colors.white,
+                        size: 35,
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Text(
-                        'Chat Room',
+                        'Profile Settings',
                         style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                             color: Colors.white,
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -216,7 +247,6 @@ class _SliderMenuState extends State<SliderMenu> {
                   ),
                 ),
               ),
-              // You can add more ListTiles here with their respective navigation logic
             ],
           ),
         ),
@@ -235,7 +265,6 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-
 class CompareProfilesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -245,4 +274,3 @@ class CompareProfilesScreen extends StatelessWidget {
     );
   }
 }
-
